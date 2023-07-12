@@ -53,8 +53,7 @@ public class UsrArticleController {
         if (foundArticle == null){
             return id + "번 게시글이 존재하지 않습니다";
         }
-        foundArticle.setTitle(title);
-        foundArticle.setBody(body);    
+        articleService.modifyArticle(id, title, body);
         return id + "번 게시글이 수정 되었습니다.";
     }
 

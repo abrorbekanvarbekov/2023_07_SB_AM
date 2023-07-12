@@ -14,11 +14,6 @@ public class ArticleService {
     @Autowired
     public ArticleService(ArticleDao articleDao){
         this.articleDao = articleDao;
-        makeTestArticles();
-    }
-
-    public void makeTestArticles() {
-        articleDao.makeTestArticles();
     }
 
     public Article writeArticle(String title, String body) {
@@ -35,5 +30,9 @@ public class ArticleService {
 
     public List<Article> getArticles(){
         return articleDao.getArticles();
+    }
+
+    public void modifyArticle(int id, String title, String body) {
+        articleDao.modifyArticle(id, title, body);
     }
 }
