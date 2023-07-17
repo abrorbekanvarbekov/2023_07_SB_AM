@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Article {
     private int id;
-    private LocalDateTime redDate;
+    private LocalDateTime regDate;
     private LocalDateTime updateDate;
     private String title;
     private String body;

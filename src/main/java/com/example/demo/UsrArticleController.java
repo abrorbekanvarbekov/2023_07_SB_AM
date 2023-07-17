@@ -3,9 +3,11 @@ package com.example.demo;
 import com.example.demo.service.ArticleService;
 import com.example.demo.vo.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,10 +22,11 @@ public class UsrArticleController {
 
     @RequestMapping("/user/article/doAdd")
     @ResponseBody
-    public Article doAdd(String title, String body){
-        Article article = articleService.writeArticle(title, body);
 
-        return article;
+    public Article doAdd(String title, String body) throws Exception {
+        articleService.writeArticle(title, body);
+        int id = articleService.getLastInsertId();
+        return articleService.getArticleById(id);
     }
 
 

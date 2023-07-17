@@ -16,8 +16,8 @@ public class ArticleService {
         this.articleDao = articleDao;
     }
 
-    public Article writeArticle(String title, String body) {
-        return articleDao.writeArticle(title, body);
+    public void writeArticle(String title, String body) throws Exception {
+        articleDao.writeArticle(title, body);
     }
 
     public Article getArticleById(int id) {
@@ -34,5 +34,9 @@ public class ArticleService {
 
     public void modifyArticle(int id, String title, String body) {
         articleDao.modifyArticle(id, title, body);
+    }
+
+    public int getLastInsertId() {
+        return articleDao.getLastInsertId();
     }
 }
