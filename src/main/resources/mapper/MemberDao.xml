@@ -39,7 +39,7 @@
         where nickname = #{nickname}
     </select>
 
-    <insert id="doModify">
+    <update id="doModify">
         update member
         <set>
             updateDate = now(),
@@ -50,20 +50,20 @@
                 loginPw = #{loginPw},
             </if>
             <if test="name != null and name != ''">
-                `name` = #{name}
+                `name` = #{name},
             </if>
             <if test="nickname != null and nickname != ''">
-                nickname = #{nickname}
+                nickname = #{nickname},
             </if>
             <if test="cellphoneNum != null and cellphoneNum != ''">
-                cellphoneNum = #{cellphoneNum}
+                cellphoneNum = #{cellphoneNum},
             </if>
             <if test="email != null and email != ''">
                 email = #{email}
             </if>
         </set>
         where id = #{id}
-    </insert>
+    </update>
     <select id="getMemberById" resultType="Member">
         select *from member
         where id = #{id}

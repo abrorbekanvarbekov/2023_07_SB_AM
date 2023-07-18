@@ -5,11 +5,13 @@ import com.example.demo.dao.ArticleDao;
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Member;
+import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,44 +25,36 @@ public class UserMemberController {
 
     @RequestMapping("usr/member/doJoin")
     @ResponseBody
-    public Object doJoin(String loginId, String loginPw, String loginPwCheck, String name, String nickname, String cellphoneNum, String email){
+    public ResultDate<Member> doJoin(String loginId, String loginPw, String loginPwCheck, String name, String nickname, String cellphoneNum, String email){
 
         if (Util.empty(loginId)){
-            return "아이디를 입력해주세요.";
+            return ResultDate.from("F-1", "아이디를 입력하세요");
         }
         if (Util.empty(loginPw)){
-            return "비밀번호를 입력해주세요.";
+            return ResultDate.from("F-1", "비밀번호를 입력해주세요.");
         }
         if (Util.empty(loginPwCheck)){
-            return "비밀번호 확인을 입력해주세요.";
+            return ResultDate.from("F-1", "비밀번호 확인을 입력해주세요.");
         }
         if (loginPw.equals(loginPwCheck) == false){
-            return "비밀번호 확인후 다시 입력해주세요.";
+            return ResultDate.from("F-2", "비밀번호가 일치히지 않습니다.");
         }
         if (Util.empty(name)){
-            return "이름을 입력해주세요.";
+            return ResultDate.from("F-1", "이름을 입력해주세요.");
         }
         if (Util.empty(nickname)){
-            return " 닉네임을 입력해주세요.";
+            return ResultDate.from("F-1", "닉네임을 입력해주세요.");
         }
         if (Util.empty(cellphoneNum)){
-            return "휴대폰 번호를 입력해주세요.";
+            return ResultDate.from("F-1", "휴대포번호를 입력해주세요.");
         }
         if (Util.empty(email)){
-            return "이메일을 입력해주세요.";
+            return ResultDate.from("F-1", "이메일을 입력해주세요.");
         }
 
-        int id = memberService.doJoin(loginId,loginPw,name, nickname,cellphoneNum,email);
+        ResultDate<Member> doJoinRd = memberService.doJoin(loginId,loginPw,name, nickname,cellphoneNum,email);
 
-        if (id == -1){
-            return "이미 사용중인 아이디 입니다.";
-        } else if (id == 0) {
-            return "이미 사용중인 닉네임 입니다.";
-        } else if (id == 1) {
-            return "이미 같은 이름과 이메일로 가입한 회원이 존재합니다.";
-        }
-
-        return memberService.getMemberById(id);
+        return doJoinRd;
     }
 
     @RequestMapping("usr/member/doLogin")
@@ -79,41 +73,51 @@ public class UserMemberController {
 
     @RequestMapping("usr/member/getMembers")
     @ResponseBody
-    public List<Member> getMembers(){
-        return memberService.getMembers();
+    public ResultDate<List<Member>> getMembers(){
+        List<Member> members = memberService.getMembers();
+
+        if (members.size() == 0) {
+            return ResultDate.from("F-1", "회원이 존재하지 않습니다.");
+        }
+        return ResultDate.from("S-1", "회원 리스트", members);
     }
 
     @RequestMapping("usr/member/getMember")
     @ResponseBody
-    public Object getMember(int id){
+    public ResultDate<Member> getMember(int id){
         Member foundMember = memberService.getMemberById(id);
 
         if (foundMember == null){
-            return id + "번째 회원이 존재하지 않습니다.";
+            return ResultDate.from("F-1", String.format("%d번째 회원이 존재하지 않습니다.", id));
         }
-        return foundMember;
+        return ResultDate.from("S-1", String.format("%d 번째 회원 입니다.", id), foundMember);
     }
 
     @RequestMapping("usr/member/doModify")
     @ResponseBody
-    public String doModify(int id, String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email){
+    public ResultDate<Member> doModify(Integer id, String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email){
+
+        if(id == null){
+            return ResultDate.from("F-1", "회원 아이디를 입력헤주세요.");
+        }
+
         Member foundMember = memberService.getMemberById(id);
 
         if (foundMember == null){
-            return id + "번째 회원이 존재하지 않습니다.";
+            return ResultDate.from("F-1", String.format("%d번째 회원이 존재하지 않습니다.", id));
         }
         memberService.doModify(id, loginId, loginPw, name, nickname, cellphoneNum, email);
-        return loginId + "님 개인 정보가 수정 되었습니다.";
+        return ResultDate.from("S-1", String.format("%d 번 회원님의 개인 정보가 수정 되었습니다", id), memberService.getMemberById(id));
     }
 
     @RequestMapping("usr/member/doDelete")
     @ResponseBody
-    public String doDelete(int id){
+    public ResultDate<String> doDelete(int id){
         Member foundMember = memberService.getMemberById(id);
         if (foundMember == null){
-            return id + "번 회원이 존재하지 않습니다.";
+            return ResultDate.from("F-1", String.format("%d번째 회원이 존재하지 않습니다.", id));
         }
         memberService.doDelete(id);
-        return id + "번 회원이 삭제 되었습니다.";
+        return ResultDate.from("F-1", String.format("%d번째 회원이 삭제 되었습니다.", id));
     }
 }

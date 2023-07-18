@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.MemberDao;
 import com.example.demo.vo.Member;
+import com.example.demo.vo.ResultDate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,23 +15,24 @@ public class MemberService {
         this.memberDao = memberDao;
     }
 
-    public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+    public ResultDate doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
         Member foundMember = isExistsMember(loginId);
         if (foundMember != null) {
-            return -1;
+            return ResultDate.from("F-1", "이미 사용중인 아이디 입니다.");
         }
 
         Member foundNickname = existsNickName(nickname);
         if(foundNickname != null){
-            return 0;
+            return ResultDate.from("F-2", "이미 사용중인 넥네임 입니다.");
         }
 
         Member foundEmailName = existsEmailAndName(name,email);
         if (foundEmailName != null){
-            return 1;
+            return ResultDate.from("F-3", "이미 같은 이름과 이메일로 가입한 회원이 존재합니다.");
         }
+
         memberDao.doJoin(loginId, loginPw,name, nickname, cellphoneNum, email);
-        return getLastInsertId();
+        return ResultDate.from("S-1", String.format("%s님이 가입하였습니다.",nickname), getMemberById(getLastInsertId()));
     }
 
     private Member existsEmailAndName(String name, String email) {
