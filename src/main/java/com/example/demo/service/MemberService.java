@@ -13,9 +13,34 @@ public class MemberService {
     public MemberService(MemberDao memberDao){
         this.memberDao = memberDao;
     }
-    public void doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+
+    public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+        Member foundMember = isExistsMember(loginId);
+        if (foundMember != null) {
+            return -1;
+        }
+
+        Member foundNickname = existsNickName(nickname);
+        if(foundNickname != null){
+            return 0;
+        }
+
+        Member foundEmailName = existsEmailAndName(name,email);
+        if (foundEmailName != null){
+            return 1;
+        }
         memberDao.doJoin(loginId, loginPw,name, nickname, cellphoneNum, email);
+        return getLastInsertId();
     }
+
+    private Member existsEmailAndName(String name, String email) {
+        return memberDao.existsEmailAndName(name, email);
+    }
+
+    private Member existsNickName(String nickname) {
+        return memberDao.existsNickName(nickname);
+    }
+
     public Member getMemberById(int id){
         return memberDao.getMemberById(id);
     };

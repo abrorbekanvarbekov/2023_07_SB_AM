@@ -28,10 +28,6 @@ public class UserMemberController {
         if (Util.empty(loginId)){
             return "아이디를 입력해주세요.";
         }
-        Member foundMember = memberService.isExistsMember(loginId);
-        if (foundMember != null) {
-            return loginId + "은 이미 존재하는 아이디 입니다.";
-        }
         if (Util.empty(loginPw)){
             return "비밀번호를 입력해주세요.";
         }
@@ -54,8 +50,15 @@ public class UserMemberController {
             return "이메일을 입력해주세요.";
         }
 
-        memberService.doJoin(loginId,loginPw,name, nickname,cellphoneNum,email);
-        int id = memberService.getLastInsertId();
+        int id = memberService.doJoin(loginId,loginPw,name, nickname,cellphoneNum,email);
+
+        if (id == -1){
+            return "이미 사용중인 아이디 입니다.";
+        } else if (id == 0) {
+            return "이미 사용중인 닉네임 입니다.";
+        } else if (id == 1) {
+            return "이미 같은 이름과 이메일로 가입한 회원이 존재합니다.";
+        }
 
         return memberService.getMemberById(id);
     }

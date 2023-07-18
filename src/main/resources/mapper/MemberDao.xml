@@ -23,9 +23,20 @@
         where loginId = #{loginId}
     </select>
 
+    <select id="existsEmailAndName" resultType="Member">
+        select * from member
+        where `name` = #{name}
+        and email = #{email}
+    </select>
+
     <select id="isExistsMember" resultType="Member">
         select * from member
         where loginId = #{loginId}
+    </select>
+
+    <select id="existsNickName" resultType="Member">
+        select * from member
+        where nickname = #{nickname}
     </select>
 
     <insert id="doModify">

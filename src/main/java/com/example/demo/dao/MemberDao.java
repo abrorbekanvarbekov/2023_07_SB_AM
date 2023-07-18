@@ -23,4 +23,8 @@ public interface MemberDao {
     public Member isExistsMember(String loginId);
 
     public int getLastInsertId();
+
+    public Member existsNickName(String nickname);
+
+    public Member existsEmailAndName(String name, String email);
 }
