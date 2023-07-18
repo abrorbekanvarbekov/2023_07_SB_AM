@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,16 +60,42 @@ public class UserMemberController {
 
     @RequestMapping("usr/member/doLogin")
     @ResponseBody
-    public String doLogin(String loginId, String loginPw){
+    public ResultDate doLogin(String loginId, String loginPw, HttpSession session){
+
+        if (session.getAttribute("loginedMemberId") != null){
+            return ResultDate.from("F-1", "이미 로그인 상태 입니다.");
+        }
+
+        if(loginId == null || loginId.trim().length() == 0){
+            return ResultDate.from("F-2", "로그인 아이디를 입력해주세요");
+        }
+
+        if(loginPw == null || loginPw.trim().length() == 0){
+            return ResultDate.from("F-3", "로그인 비밀번호를 입력해주세요");
+        }
+
         Member member = memberService.doLogin(loginId);
         if(member == null) {
-            return loginId + "이라는 아이디가 존재하지 않습니다.";
+            return ResultDate.from("F-1", String.format("%s 이라는 아이디가 존재하지 않습니다.", loginId));
         }
 
         if (loginPw.equals(member.getLoginPw()) == false){
-            return "비밀번호가 일치하지 않습니다.";
+            return ResultDate.from("F-2", "비밀번호가 일치하지 않습니다.");
         }
-        return loginId + "님 환영합니다.";
+
+        session.setAttribute("loginedMemberId", member.getId());
+        return ResultDate.from("S-1", String.format("%s님 환영합니다.", member.getNickname()));
+    }
+
+    @RequestMapping("usr/member/doLogOut")
+    @ResponseBody
+    public ResultDate doLogOut(HttpSession session){
+
+        if (session.getAttribute("loginedMemberId") == null){
+            return ResultDate.from("F-1", "로그인 후 이용해주세요.");
+        }
+        session.removeAttribute("loginedMemberId");
+        return ResultDate.from("S-1", "로그아웃 되었습니다.");
     }
 
     @RequestMapping("usr/member/getMembers")
