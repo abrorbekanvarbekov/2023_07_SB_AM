@@ -16,7 +16,7 @@ public class ArticleService {
         this.articleDao = articleDao;
     }
 
-    public void writeArticle(String title, String body) throws Exception {
+    public void writeArticle(String title, String body){
         articleDao.writeArticle(title, body);
     }
 

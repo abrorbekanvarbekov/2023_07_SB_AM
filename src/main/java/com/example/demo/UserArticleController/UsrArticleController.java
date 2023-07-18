@@ -1,13 +1,11 @@
-package com.example.demo;
+package com.example.demo.UserArticleController;
 
 import com.example.demo.service.ArticleService;
 import com.example.demo.vo.Article;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,23 +18,22 @@ public class UsrArticleController {
         this.articleService = articleService;
     }
 
-    @RequestMapping("/user/article/doAdd")
+    @RequestMapping("/usr/article/doAdd")
     @ResponseBody
-
-    public Article doAdd(String title, String body) throws Exception {
+    public Article doAdd(String title, String body) {
         articleService.writeArticle(title, body);
         int id = articleService.getLastInsertId();
         return articleService.getArticleById(id);
     }
 
 
-    @RequestMapping("/user/article/getArticles")
+    @RequestMapping("/usr/article/getArticles")
     @ResponseBody
     public List<Article> getArticles(){
         return articleService.getArticles();
     }
 
-    @RequestMapping("/user/article/doDelete")
+    @RequestMapping("/usr/article/doDelete")
     @ResponseBody
     public String doDelete(int id){
         Article foundArticle = articleService.getArticleById(id);
@@ -48,7 +45,7 @@ public class UsrArticleController {
         return id + "번째 게시글이 삭제 되었습니다.";
     }
 
-    @RequestMapping("/user/article/doModify")
+    @RequestMapping("/usr/article/doModify")
     @ResponseBody
     public String doModify(int id, String title, String body){
         Article foundArticle = articleService.getArticleById(id);
@@ -60,7 +57,7 @@ public class UsrArticleController {
         return id + "번 게시글이 수정 되었습니다.";
     }
 
-    @RequestMapping("/user/article/getArticle")
+    @RequestMapping("/usr/article/getArticle")
     @ResponseBody
     public Object getArticle(int id){
         Article foundArticle = articleService.getArticleById(id);

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.MemberDao">
+    <insert id="doJoin">
+        insert into member
+            set regDate = NOW(),
+                updateDate = NOW(),
+                loginId = #{loginId},
+                loginPw = #{loginPw},
+                `name` = #{name},
+                nickname = #{nickname},
+                cellphoneNum = #{cellphoneNum},
+                email = #{email}
+    </insert>
+
+    <select id="getLastInsertId" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <select id="doLogin" resultType="Member">
+        select * from member
+        where loginId = #{loginId}
+    </select>
+
+    <select id="isExistsMember" resultType="Member">
+        select * from member
+        where loginId = #{loginId}
+    </select>
+
+    <insert id="doModify">
+        update member
+        <set>
+            updateDate = now(),
+            <if test="loginId != null and loginId != ''">
+                loginId = #{loginId},
+            </if>
+            <if test="loginPw != null and loginPw != ''">
+                loginPw = #{loginPw},
+            </if>
+            <if test="name != null and name != ''">
+                `name` = #{name}
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname}
+            </if>
+            <if test="cellphoneNum != null and cellphoneNum != ''">
+                cellphoneNum = #{cellphoneNum}
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email}
+            </if>
+        </set>
+        where id = #{id}
+    </insert>
+    <select id="getMemberById" resultType="Member">
+        select *from member
+        where id = #{id}
+    </select>
+
+    <select id="getMembers" resultType="Member">
+        select * from member
+        order by id desc
+    </select>
+
+    <delete id="doDelete">
+        delete from member
+        where id = #{id}
+    </delete>
+</mapper>
+
