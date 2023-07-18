@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface ArticleDao {
 
-    public void writeArticle(String title, String body);
+    public void writeArticle(String title, String body, int memberId);
 
     public Article getArticleById(int id);
 

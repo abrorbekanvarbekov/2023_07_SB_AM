@@ -2,12 +2,14 @@ package com.example.demo.UserArticleController;
 
 import com.example.demo.service.ArticleService;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -21,7 +23,11 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/doAdd")
     @ResponseBody
-    public ResultDate<Article> doAdd(String title, String body) {
+    public ResultDate<Article> doAdd(String title, String body, HttpSession session) {
+
+        if (session.getAttribute("loginedMemberId") == null){
+            return ResultDate.from("F-A", "로그인 후 이용해주세요");
+        }
 
         if (title == null || title.trim().length() == 0){
             return ResultDate.from("F-1", "제목을 입력해주세요");
@@ -30,7 +36,10 @@ public class UsrArticleController {
         if (body == null || title.trim().length() == 0){
             return ResultDate.from("F-1", "내용을 입력해주세요");
         }
-        articleService.writeArticle(title, body);
+
+       int memberId = (int) session.getAttribute("loginedMemberId");
+
+        articleService.writeArticle(title, body, memberId);
         int id = articleService.getLastInsertId();
         return ResultDate.from("S-1", String.format("%d번 게시글이 생성되었습니다.", id), articleService.getArticleById(id));
     }

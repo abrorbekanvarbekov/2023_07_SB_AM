@@ -29,4 +29,39 @@ set regDate = now(),
     `body` = '내용3';
 
 
-select * from article
+select * from article;
+drop table if exists member;
+
+create table member(
+    id int unsigned not null primary key auto_increment,
+    regDate datetime not null,
+    updateDate datetime not null,
+    loginId varchar(20) not null unique ,
+    loginPw varchar(100) not null,
+    `authLevel` tinyint unsigned not null default 1 comment '권한 라벨 (일반 = 1, 관리자 = 3)',
+    `name` varchar(20) not null,
+    nickname varchar(20) not null,
+    cellphoneNum varchar(20) not null,
+    email varchar(50) not null,
+    delStatus tinyint unsigned not null default 0 comment '탈퇴여부 (탈퇴 전  = 0, 탈퇴 후 = 1)',
+    delDate datetime comment '회원 탈퇴 날짜'
+);
+
+alter table article add column memberId int not null;
+
+insert into member
+    set regDate = now(),
+        updateDate = now(),
+        loginId = 'admin',
+        loginPw = 'admin',
+        `authLevel` = 3,
+        `name` = 'admin',
+        nickname = 'admin',
+        cellphoneNum = 01012345678,
+        email = 'admin@gmail.com';
+
+
+truncate article;
+
+
+select * from article;
