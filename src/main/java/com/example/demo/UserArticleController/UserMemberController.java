@@ -3,6 +3,7 @@ package com.example.demo.UserArticleController;
 import com.example.demo.UserHomeController;
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.service.MemberService;
+import com.example.demo.util.Util;
 import com.example.demo.vo.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,32 +25,32 @@ public class UserMemberController {
     @ResponseBody
     public Object doJoin(String loginId, String loginPw, String loginPwCheck, String name, String nickname, String cellphoneNum, String email){
 
-        if (loginId == null || loginId.trim().length() == 0){
+        if (Util.empty(loginId)){
             return "아이디를 입력해주세요.";
         }
         Member foundMember = memberService.isExistsMember(loginId);
         if (foundMember != null) {
             return loginId + "은 이미 존재하는 아이디 입니다.";
         }
-        if (loginPw == null || loginPw.trim().length() == 0){
+        if (Util.empty(loginPw)){
             return "비밀번호를 입력해주세요.";
         }
-        if (loginPwCheck == null || loginPwCheck.trim().length() == 0){
+        if (Util.empty(loginPwCheck)){
             return "비밀번호 확인을 입력해주세요.";
         }
         if (loginPw.equals(loginPwCheck) == false){
             return "비밀번호 확인후 다시 입력해주세요.";
         }
-        if (name == null || name.trim().length() == 0){
+        if (Util.empty(name)){
             return "이름을 입력해주세요.";
         }
-        if (nickname == null || nickname.trim().length() == 0){
+        if (Util.empty(nickname)){
             return " 닉네임을 입력해주세요.";
         }
-        if (cellphoneNum == null || cellphoneNum.trim().length() == 0){
+        if (Util.empty(cellphoneNum)){
             return "휴대폰 번호를 입력해주세요.";
         }
-        if (email == null || email.trim().length() == 0){
+        if (Util.empty(email)){
             return "이메일을 입력해주세요.";
         }
 
