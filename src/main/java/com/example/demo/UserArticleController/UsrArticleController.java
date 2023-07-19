@@ -59,26 +59,38 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody
-    public ResultDate<String> doDelete(int id){
+    public ResultDate<String> doDelete(int id, HttpSession session){
+        if (session.getAttribute("loginedMemberId") == null){
+            return ResultDate.from("F-A", "로그인 후 이용해주세요");
+        }
         Article foundArticle = articleService.getArticleById(id);
-
         if (foundArticle == null){
             return ResultDate.from("F-1", String.format("%d번째 게시글이 존재하지 않습니다", id));
         }
+
+        int loginedMember = (int) session.getAttribute("loginedMemberId");
+        if (loginedMember != foundArticle.getMemberId()){
+            return ResultDate.from("F-B", "해당 게시물에 대한 권한이 없습니다.");
+        }
+
         articleService.deleteArticle(id);
         return ResultDate.from("S-1", String.format("%d번째 게시글이 삭제 되었습니다", id));
     }
 
     @RequestMapping("/usr/article/doModify")
     @ResponseBody
-    public ResultDate<String> doModify(int id, String title, String body){
-        Article foundArticle = articleService.getArticleById(id);
+    public ResultDate<Article> doModify(int id, String title, String body, HttpSession session){
 
+        if (session.getAttribute("loginedMemberId") == null) {
+            return ResultDate.from("F-A", "로그인 후 이용해주세요");
+        }
+
+        Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
             return ResultDate.from("F-1", String.format("%d번째 게시글이 존재하지 않습니다", id));
         }
-        articleService.modifyArticle(id, title, body);
-        return ResultDate.from("S-1", String.format("%d번째 게시글이 수정 되었습니다", id));
+
+        return articleService.modifyArticle(id, title, body, session, foundArticle);
     }
 
     @RequestMapping("/usr/article/getArticle")
