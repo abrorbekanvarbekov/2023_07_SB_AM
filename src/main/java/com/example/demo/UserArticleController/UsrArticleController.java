@@ -7,6 +7,7 @@ import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -46,16 +47,12 @@ public class UsrArticleController {
     }
 
 
-    @RequestMapping("/usr/article/getArticles")
-    @ResponseBody
-    public ResultDate<List<Article>> getArticles(){
+    @RequestMapping("/usr/article/list")
+    public String getArticles(Model model){
         List<Article> articles = articleService.getArticles();
 
-        if(articles.size() == 0){
-            return ResultDate.from("F-1", "게시물이 존재하지 않습니다.");
-        }
-
-        return ResultDate.from("S-1", "게시물 리스트","articles", articles);
+        model.addAttribute("articles", articles);
+        return "usr/article/list";
     }
 
     @RequestMapping("/usr/article/doDelete")
