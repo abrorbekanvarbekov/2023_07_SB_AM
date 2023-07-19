@@ -32,7 +32,7 @@ public class MemberService {
         }
 
         memberDao.doJoin(loginId, loginPw,name, nickname, cellphoneNum, email);
-        return ResultDate.from("S-1", String.format("%s님이 가입하였습니다.",nickname), getMemberById(getLastInsertId()));
+        return ResultDate.from("S-1", String.format("%s님이 가입하였습니다.",nickname), "member",getMemberById(getLastInsertId()));
     }
 
     private Member existsEmailAndName(String name, String email) {

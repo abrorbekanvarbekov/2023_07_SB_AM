@@ -1,6 +1,7 @@
 package com.example.demo.UserArticleController;
 
 import com.example.demo.service.ArticleService;
+import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultDate;
@@ -41,7 +42,7 @@ public class UsrArticleController {
 
         articleService.writeArticle(title, body, memberId);
         int id = articleService.getLastInsertId();
-        return ResultDate.from("S-1", String.format("%d번 게시글이 생성되었습니다.", id), articleService.getArticleById(id));
+        return ResultDate.from("S-1", String.format("%d번 게시글이 생성되었습니다.", id), "article", articleService.getArticleById(id));
     }
 
 
@@ -54,7 +55,7 @@ public class UsrArticleController {
             return ResultDate.from("F-1", "게시물이 존재하지 않습니다.");
         }
 
-        return ResultDate.from("S-1", "게시물 리스트", articles);
+        return ResultDate.from("S-1", "게시물 리스트","articles", articles);
     }
 
     @RequestMapping("/usr/article/doDelete")
@@ -63,6 +64,7 @@ public class UsrArticleController {
         if (session.getAttribute("loginedMemberId") == null){
             return ResultDate.from("F-A", "로그인 후 이용해주세요");
         }
+
         Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
             return ResultDate.from("F-1", String.format("%d번째 게시글이 존재하지 않습니다", id));
@@ -102,6 +104,6 @@ public class UsrArticleController {
             return ResultDate.from("F-1", String.format("%d번 게시글이 존재하지 않습니다", id));
         }
 
-        return ResultDate.from("S-1", String.format("%d번 게시글 입니다", id), foundArticle);
+        return ResultDate.from("S-1", String.format("%d번 게시글 입니다", id),"article", foundArticle);
     }
 }

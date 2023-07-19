@@ -6,16 +6,18 @@ import lombok.Data;
 public class ResultDate<DT> {
     private String resultCode;
     private String msg;
+    private String dataName;
     private DT data1;
 
     public static <DT>ResultDate<DT> from (String resultCode, String msg){
-        return from(resultCode, msg, null);
+        return from(resultCode, msg, null, null);
     }
 
-    public static <DT>ResultDate<DT> from (String resultCode, String msg, DT data1){
+    public static <DT>ResultDate<DT> from (String resultCode, String msg, String dataName, DT data1){
         ResultDate<DT> rd = new ResultDate<>();
         rd.resultCode = resultCode;
         rd.msg = msg;
+        rd.dataName = dataName;
         rd.data1 = data1;
 
         return rd;

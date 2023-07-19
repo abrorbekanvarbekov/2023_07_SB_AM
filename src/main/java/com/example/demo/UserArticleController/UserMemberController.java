@@ -106,7 +106,7 @@ public class UserMemberController {
         if (members.size() == 0) {
             return ResultDate.from("F-1", "회원이 존재하지 않습니다.");
         }
-        return ResultDate.from("S-1", "회원 리스트", members);
+        return ResultDate.from("S-1", "회원 리스트", "member", members);
     }
 
     @RequestMapping("usr/member/getMember")
@@ -117,7 +117,7 @@ public class UserMemberController {
         if (foundMember == null){
             return ResultDate.from("F-1", String.format("%d번째 회원이 존재하지 않습니다.", id));
         }
-        return ResultDate.from("S-1", String.format("%d 번째 회원 입니다.", id), foundMember);
+        return ResultDate.from("S-1", String.format("%d 번째 회원 입니다.", id), "member", foundMember);
     }
 
     @RequestMapping("usr/member/doModify")
@@ -134,7 +134,7 @@ public class UserMemberController {
             return ResultDate.from("F-1", String.format("%d번째 회원이 존재하지 않습니다.", id));
         }
         memberService.doModify(id, loginId, loginPw, name, nickname, cellphoneNum, email);
-        return ResultDate.from("S-1", String.format("%d 번 회원님의 개인 정보가 수정 되었습니다", id), memberService.getMemberById(id));
+        return ResultDate.from("S-1", String.format("%d 번 회원님의 개인 정보가 수정 되었습니다", id), "member", memberService.getMemberById(id));
     }
 
     @RequestMapping("usr/member/doDelete")

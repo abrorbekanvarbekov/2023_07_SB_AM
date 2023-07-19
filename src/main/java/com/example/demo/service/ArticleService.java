@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.ArticleDao;
+import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +41,8 @@ public class ArticleService {
             return ResultDate.from("F-B", "해당 게시물에 대한 권한이 없습니다.");
         }
 
-        if (title == null || title.trim().length() == 0){
-            return ResultDate.from("F-1", "제목을 입력해주세요");
-        }
-
-        if (body == null || title.trim().length() == 0){
-            return ResultDate.from("F-1", "내용을 입력해주세요");
-        }
-
         articleDao.modifyArticle(id, title, body);
-        return ResultDate.from("S-1", String.format("%d번째 게시글이 수정 되었습니다", id), getArticleById(id));
+        return ResultDate.from("S-1", String.format("%d번째 게시글이 수정 되었습니다", id), "article", getArticleById(id));
     }
 
     public int getLastInsertId() {
