@@ -55,6 +55,15 @@ public class UsrArticleController {
         return "usr/article/list";
     }
 
+    @RequestMapping("/usr/article/detail")
+    public String getArticle(Model model, int id){
+        Article foundArticle = articleService.getArticleById(id);
+
+        model.addAttribute("article", foundArticle);
+
+        return "usr/article/detail";
+    }
+
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody
     public ResultDate<String> doDelete(int id, HttpSession session){
@@ -92,15 +101,4 @@ public class UsrArticleController {
         return articleService.modifyArticle(id, title, body, session, foundArticle);
     }
 
-    @RequestMapping("/usr/article/getArticle")
-    @ResponseBody
-    public ResultDate<Article> getArticle(int id){
-        Article foundArticle = articleService.getArticleById(id);
-
-        if (foundArticle == null){
-            return ResultDate.from("F-1", String.format("%d번 게시글이 존재하지 않습니다", id));
-        }
-
-        return ResultDate.from("S-1", String.format("%d번 게시글 입니다", id),"article", foundArticle);
-    }
 }
