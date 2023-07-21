@@ -1,17 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-    <div>
-        <a href="">LoGo</a>
-        <ul>
-            <li><a href="/">HOME</a></li>
-            <li><a href="/usr/article/list">LIST</a></li>
-        </ul>
-    </div>
-    <h1>Article Detail Page</h1>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+
+<c:set var="pageTitle" value="Main"/>
+<%@include file="../common/head.jsp" %>
     <table border="1">
         <thead>
         <tr>
@@ -30,5 +22,4 @@
             </tr>
         </tbody>
     </table>
-</body>
-</html>
+<%@include file="../common/foot.jsp" %>

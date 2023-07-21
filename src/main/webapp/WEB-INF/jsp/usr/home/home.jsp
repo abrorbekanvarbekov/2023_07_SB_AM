@@ -1,21 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Main Page</title>
-</head>
-<body>
-    <div>
-        <a href="">LoGo</a>
-        <ul>
-            <li><a href="/">HOME</a></li>
-            <li><a href="/usr/article/list">LIST</a></li>
-        </ul>
-    </div>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-    <h1>Main Page</h1>
+<c:set var="pageTitle" value="Main"/>
+<%@include file="../common/head.jsp" %>
 
-    <div>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, quibusdam odit. Nihil maiores voluptate, voluptatum, voluptatibus quis error pariatur et voluptates numquam facilis unde, corrupti tempore debitis ab dolore cupiditate.
-    </div>
-</body>
-</html>
+<div>
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, quibusdam odit. Nihil maiores voluptate, voluptatum, voluptatibus quis error pariatur et voluptates numquam facilis unde, corrupti tempore debitis ab dolore cupiditate.
+</div>
+
+<%@include file="../common/foot.jsp" %>
