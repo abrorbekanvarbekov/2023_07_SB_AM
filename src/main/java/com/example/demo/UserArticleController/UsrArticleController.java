@@ -57,7 +57,7 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/detail")
     public String getArticle(Model model, int id){
-        Article foundArticle = articleService.getArticleById(id);
+        Article foundArticle = articleService.getArticleByNickname(id);
 
         model.addAttribute("article", foundArticle);
 

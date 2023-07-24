@@ -48,4 +48,8 @@ public class ArticleService {
     public int getLastInsertId() {
         return articleDao.getLastInsertId();
     }
+
+    public Article getArticleByNickname(int id) {
+        return articleDao.getArticleByNickname(id);
+    }
 }

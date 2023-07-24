@@ -22,10 +22,20 @@
             where id = #{id}
     </select>
 
-    <select id="getArticles" resultType="Article" >
-            SELECT *
-                FROM article
-                ORDER BY ID desc
+    <select id="getArticleByNickname" resultType="Article" >
+        select a.*, m.nickname as writerName
+        from article as a
+        inner join `member` as m
+        on a.memberId = m.id
+        where a.id = #{id}
+    </select>
+
+    <select id="getArticles" resultType="Article">
+        select a.*, m.nickname as writerName
+        from article as a
+            inner join `member` as m
+            on a.memberId = m.id
+        order by a.id desc;
     </select>
 
 
