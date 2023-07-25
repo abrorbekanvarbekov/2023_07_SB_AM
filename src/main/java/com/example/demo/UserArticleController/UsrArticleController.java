@@ -56,33 +56,51 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/usr/article/detail")
-    public String getArticle(Model model, int id){
+    public String getArticle(Model model, int id, HttpSession session){
+        int loginedMemberId = 0;
+
+        if (session.getAttribute("loginedMemberId") != null){
+            loginedMemberId = (int) session.getAttribute("loginedMemberId");
+        }
+
         Article foundArticle = articleService.getArticleByNickname(id);
+        if (foundArticle == null){
+            String msg =  id + "번 게시물이 존재하지 않습니다.";
+            model.addAttribute("msg", msg);
+            return "usr/article/errorPage";
+        }
 
         model.addAttribute("article", foundArticle);
-
+        model.addAttribute("loginedMemberId", loginedMemberId);
         return "usr/article/detail";
     }
 
     @RequestMapping("/usr/article/doDelete")
-    @ResponseBody
-    public ResultDate<String> doDelete(int id, HttpSession session){
+    public String doDelete(Model model, int id, HttpSession session){
         if (session.getAttribute("loginedMemberId") == null){
-            return ResultDate.from("F-A", "로그인 후 이용해주세요");
+            String msg =  "로그인 후 이용해주세요";
+            model.addAttribute("msg", msg);
+            return "usr/article/errorPage";
         }
 
         Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
-            return ResultDate.from("F-1", String.format("%d번째 게시글이 존재하지 않습니다", id));
+            String msg =  id + "번 게시물이 존재하지 않습니다.";
+            model.addAttribute("msg", msg);
+
+            return "usr/article/errorPage";
         }
 
         int loginedMember = (int) session.getAttribute("loginedMemberId");
-        if (loginedMember != foundArticle.getMemberId()){
-            return ResultDate.from("F-B", "해당 게시물에 대한 권한이 없습니다.");
-        }
+//        if (loginedMember != foundArticle.getMemberId()){
+//            String msg = "해당 게시물에 대한 권한이 없습니다.";
+//            model.addAttribute("msg", msg);
+//            return "usr/article/errorPage";
+//        }
 
         articleService.deleteArticle(id);
-        return ResultDate.from("S-1", String.format("%d번째 게시글이 삭제 되었습니다", id));
+//        String msg =  id + "번 게시물이 삭제되었습니다.";
+        return "usr/article/errorPage";
     }
 
     @RequestMapping("/usr/article/doModify")
