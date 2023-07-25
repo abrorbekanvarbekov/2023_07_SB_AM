@@ -76,31 +76,24 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/usr/article/doDelete")
-    public String doDelete(Model model, int id, HttpSession session){
+    @ResponseBody
+    public String doDelete(int id, HttpSession session){
         if (session.getAttribute("loginedMemberId") == null){
-            String msg =  "로그인 후 이용해주세요";
-            model.addAttribute("msg", msg);
-            return "usr/article/errorPage";
+            return Util.jsHistoryBack("로그인 후 이용해주세요");
         }
 
         Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
-            String msg =  id + "번 게시물이 존재하지 않습니다.";
-            model.addAttribute("msg", msg);
-
-            return "usr/article/errorPage";
+            return Util.jsHistoryBack(String.format("%d번 게시물이 존재하지 않습니다", id));
         }
 
         int loginedMember = (int) session.getAttribute("loginedMemberId");
-//        if (loginedMember != foundArticle.getMemberId()){
-//            String msg = "해당 게시물에 대한 권한이 없습니다.";
-//            model.addAttribute("msg", msg);
-//            return "usr/article/errorPage";
-//        }
+        if (loginedMember != foundArticle.getMemberId()){
+            return Util.jsHistoryBack("해당 게시물에 대한 권한이 없습니다");
+        }
 
         articleService.deleteArticle(id);
-//        String msg =  id + "번 게시물이 삭제되었습니다.";
-        return "usr/article/errorPage";
+        return Util.jsReplace(String.format("%d번 게시물이 삭제되었습니다",id), "list");
     }
 
     @RequestMapping("/usr/article/doModify")
