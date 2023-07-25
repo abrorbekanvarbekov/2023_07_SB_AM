@@ -29,11 +29,7 @@ public class UsrArticleController {
     @ResponseBody
     public ResultDate<Article> doAdd(HttpServletRequest request, String title, String body, HttpSession session) {
 
-//        Rq rq = new Rq(request);
-
-//        if (rq.getLoginedMemberId() == 0){
-//            return Util.jsHistoryBack("로그인 후 이용해주세요");
-//        }
+        Rq rq = (Rq) request.getAttribute("rq");
 
         if (title == null || title.trim().length() == 0){
             return ResultDate.from("F-1", "제목을 입력해주세요");
@@ -88,10 +84,6 @@ public class UsrArticleController {
 
         Rq rq = (Rq) request.getAttribute("rq");
 
-        if (rq.getLoginedMemberId() == 0){
-            return Util.jsHistoryBack("로그인 후 이용해주세요");
-        }
-
         Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
             return Util.jsHistoryBack(String.format("%d번 게시물이 존재하지 않습니다", id));
@@ -110,10 +102,6 @@ public class UsrArticleController {
     public String doModify(HttpServletRequest request, int id, String title, String body, HttpSession session){
 
         Rq rq = (Rq) request.getAttribute("rq");
-
-        if (rq.getLoginedMemberId() == 0){
-            return Util.jsHistoryBack("로그인 후 이용해주세요");
-        }
 
         Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
