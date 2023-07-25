@@ -49,7 +49,6 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/list")
     public String getArticles(Model model){
-        System.out.println("Controller shilheng tem??");
 
         List<Article> articles = articleService.getArticles();
 

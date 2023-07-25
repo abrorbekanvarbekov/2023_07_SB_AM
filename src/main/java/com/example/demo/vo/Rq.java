@@ -11,14 +11,17 @@ import java.io.IOException;
 public class Rq {
     @Getter
     private int loginedMemberId;
-//    private HttpServletRequest request;
+    private HttpServletRequest request;
     private HttpServletResponse response;
+    private HttpSession session;
 
     public Rq(HttpServletRequest request, HttpServletResponse response){
-//        this.request = request;
-        this.response = response;
-        int loginedMemberId = 0;
         HttpSession session = request.getSession();
+        this.request = request;
+        this.response = response;
+        this.session = session;
+
+        int loginedMemberId = 0;
         if (session.getAttribute("loginedMemberId") != null){
             loginedMemberId = (int) session.getAttribute("loginedMemberId");
         }
@@ -34,5 +37,13 @@ public class Rq {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void login(Member member) {
+        this.session.setAttribute("loginedMemberId", member.getId());
+    }
+
+    public void logout() {
+        this.session.removeAttribute("loginedMemberId");
     }
 }

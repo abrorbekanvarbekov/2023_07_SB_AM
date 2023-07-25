@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.MemberDao;
+import com.example.demo.util.Util;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultDate;
 import org.springframework.stereotype.Service;
@@ -32,14 +33,14 @@ public class MemberService {
         }
 
         memberDao.doJoin(loginId, loginPw,name, nickname, cellphoneNum, email);
-        return ResultDate.from("S-1", String.format("%s님이 가입하였습니다.",nickname), "member",getMemberById(getLastInsertId()));
+        return ResultDate.from("S-1", String.format("%s님이 가입 성공하였습니다.",nickname), "member",getMemberById(getLastInsertId()));
     }
 
-    private Member existsEmailAndName(String name, String email) {
+    public Member existsEmailAndName(String name, String email) {
         return memberDao.existsEmailAndName(name, email);
     }
 
-    private Member existsNickName(String nickname) {
+    public Member existsNickName(String nickname) {
         return memberDao.existsNickName(nickname);
     }
 
