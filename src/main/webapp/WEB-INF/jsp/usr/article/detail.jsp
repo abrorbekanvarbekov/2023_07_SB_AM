@@ -36,7 +36,7 @@
         <div class="mt-8">
             <button onclick="history.back();" class="btn-text-link">뒤로가기</button>
             <c:if test="${article.memberId == loginedMemberId}">
-                <a class="btn-text-link" href="modify?id=${article.id}">Modify</a>
+                <a class="btn-text-link" href="modify?id=${article.id}" onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;">Modify</a>
                 <a class="btn-text-link" href="doDelete?id=${article.id}" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">Delete</a>
             </c:if>
         </div>

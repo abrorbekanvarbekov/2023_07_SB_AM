@@ -35,14 +35,8 @@ public class ArticleService {
         return articleDao.getArticles();
     }
 
-    public ResultDate<Article> modifyArticle(int id, String title, String body, HttpSession session, Article foundArticle) {
-
-        if ((int) session.getAttribute("loginedMemberId") != foundArticle.getMemberId()){
-            return ResultDate.from("F-B", "해당 게시물에 대한 권한이 없습니다.");
-        }
-
+    public void modifyArticle(int id, String title, String body) {
         articleDao.modifyArticle(id, title, body);
-        return ResultDate.from("S-1", String.format("%d번째 게시글이 수정 되었습니다", id), "article", getArticleById(id));
     }
 
     public int getLastInsertId() {

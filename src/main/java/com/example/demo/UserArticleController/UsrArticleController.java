@@ -98,18 +98,23 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/doModify")
     @ResponseBody
-    public ResultDate<Article> doModify(int id, String title, String body, HttpSession session){
+    public String doModify(int id, String title, String body, HttpSession session){
 
         if (session.getAttribute("loginedMemberId") == null) {
-            return ResultDate.from("F-A", "로그인 후 이용해주세요");
+            return Util.jsHistoryBack("로그인 후 이용해주세요");
         }
 
         Article foundArticle = articleService.getArticleById(id);
         if (foundArticle == null){
-            return ResultDate.from("F-1", String.format("%d번째 게시글이 존재하지 않습니다", id));
+            return Util.jsReplace(String.format("%d번 게시글이 존재하지 않습니다", id), "list");
         }
 
-        return articleService.modifyArticle(id, title, body, session, foundArticle);
+        if ((int) session.getAttribute("loginedMemberId") != foundArticle.getMemberId()){
+            return Util.jsReplace("해당 게시물에 대한 권한이 없습니다.", "list");
+        }
+
+        articleService.modifyArticle(id, title, body);
+        return Util.jsReplace(String.format("%d번 게시글이 수정 되었습니다.",id), String.format("detail?id=%s", id));
     }
 
 }
