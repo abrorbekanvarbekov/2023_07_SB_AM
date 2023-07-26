@@ -39,11 +39,17 @@ public class Rq {
         }
     }
 
+
     public void login(Member member) {
         this.session.setAttribute("loginedMemberId", member.getId());
     }
 
     public void logout() {
         this.session.removeAttribute("loginedMemberId");
+    }
+
+    public String jsReturnOnView(String msg) {
+        this.request.setAttribute("msg", msg);
+        return "usr/article/errorPage";
     }
 }

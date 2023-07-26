@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -58,18 +60,18 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/usr/article/detail")
-    public String getArticle(Model model, int id, HttpSession session){
+    public String getArticle(Model model, int id, HttpServletRequest request, HttpServletResponse response){
+
+        Rq rq = (Rq) request.getAttribute("rq");
         int loginedMemberId = 0;
 
-        if (session.getAttribute("loginedMemberId") != null){
-            loginedMemberId = (int) session.getAttribute("loginedMemberId");
+        if (rq.getLoginedMemberId() != 0){
+            loginedMemberId = rq.getLoginedMemberId();
         }
 
         Article foundArticle = articleService.getArticleByNickname(id);
         if (foundArticle == null){
-            String msg =  id + "번 게시물이 존재하지 않습니다.";
-            model.addAttribute("msg", msg);
-            return "usr/article/errorPage";
+            return rq.jsReturnOnView(id + "번 게시글이 존재하지 않습니다");
         }
 
         model.addAttribute("article", foundArticle);
@@ -79,7 +81,7 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody
-    public String doDelete(HttpServletRequest request, int id, HttpSession session){
+    public String doDelete(HttpServletRequest request, int id){
 
         Rq rq = (Rq) request.getAttribute("rq");
 
@@ -96,9 +98,28 @@ public class UsrArticleController {
         return Util.jsReplace(String.format("%d번 게시물이 삭제되었습니다",id), "list");
     }
 
+    @RequestMapping("/usr/article/modify")
+    public String modify(Model model, int id, HttpServletRequest request){
+
+        Rq rq = (Rq) request.getAttribute("rq");
+
+        Article foundArticle = articleService.getArticleById(id);
+        if (foundArticle == null){
+            return rq.jsReturnOnView(String.format("%d번 게시글이 존재하지 않습니다", id));
+        }
+
+        if (rq.getLoginedMemberId() != foundArticle.getMemberId()){
+            return rq.jsReturnOnView("해당 게시물에 대한 권한이 없습니다.");
+        }
+
+        Article article = articleService.getArticleByNickname(id);
+        model.addAttribute("article", article);
+        return "usr/article/modify";
+    }
+
     @RequestMapping("/usr/article/doModify")
     @ResponseBody
-    public String doModify(HttpServletRequest request, int id, String title, String body, HttpSession session){
+    public String doModify(HttpServletRequest request, int id, String title, String body){
 
         Rq rq = (Rq) request.getAttribute("rq");
 
@@ -107,7 +128,7 @@ public class UsrArticleController {
             return Util.jsReplace(String.format("%d번 게시글이 존재하지 않습니다", id), "list");
         }
 
-        if ((int) session.getAttribute("loginedMemberId") != foundArticle.getMemberId()){
+        if (rq.getLoginedMemberId() != foundArticle.getMemberId()){
             return Util.jsReplace("해당 게시물에 대한 권한이 없습니다.", "list");
         }
 

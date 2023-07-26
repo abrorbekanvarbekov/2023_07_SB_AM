@@ -12,7 +12,7 @@
                     <tbody>
                     <tr>
                         <th>LoginId</th>
-                        <td><input class="w-full" style="height: 100%" type="text" placeholder="LoginId" name="loginId">
+                        <td><input class="w-full" type="text" placeholder="LoginId" name="loginId">
                         </td>
                     </tr>
                     <tr>

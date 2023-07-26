@@ -110,9 +110,6 @@ public class UserMemberController {
 
         Rq rq = (Rq) request.getAttribute("rq");
 
-        if (rq.getLoginedMemberId() == 0){
-            return Util.jsHistoryBack("로그인 후 이용해주세요.");
-        }
         rq.logout();
         return Util.jsReplace("로그아웃 되었습니다.", "/");
     }
