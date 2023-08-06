@@ -8,8 +8,8 @@
 <section class="mt-8">
     <div class="container mx-auto">
         <div class="table-box-type-1">
-            <div>
-                총 : ${articleCnt}개
+            <div class="mb-2">
+                <span>총 : ${articleCnt}개</span>
             </div>
             <table border="1">
                 <thead>

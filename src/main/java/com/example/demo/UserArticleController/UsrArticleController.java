@@ -57,11 +57,12 @@ public class UsrArticleController {
     public String getAllArticles(Model model, int boardId, HttpServletRequest request) {
         Rq rq = (Rq) request.getAttribute("rq");
 
-        if (boardId !=0 && boardId != 1 && boardId != 2){
-             return rq.jsReturnOnView("게시판이 존재하지 않습니다.");
+        Board board = boardService.getBoardById(boardId);
+
+        if(board == null){
+            return rq.jsReturnOnView("존재하지 않는 게시판입니다.");
         }
 
-        Board board = boardService.getBoardById(boardId);
         List<Article> articles = articleService.getAllArticles(boardId);
         int articleCntByBoard = articleService.getArticleCountByBoard(boardId);
         model.addAttribute("articles", articles);
