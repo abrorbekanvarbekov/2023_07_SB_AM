@@ -1,8 +1,10 @@
 package com.example.demo.UserArticleController;
 
 import com.example.demo.service.ArticleService;
+import com.example.demo.service.BoardService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.Board;
 import com.example.demo.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,16 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
 public class UsrArticleController {
     private ArticleService articleService;
+    private BoardService boardService;
+
 
     @Autowired
-    public UsrArticleController(ArticleService articleService) {
+    public UsrArticleController(ArticleService articleService, BoardService boardService) {
         this.articleService = articleService;
+        this.boardService = boardService;
     }
 
     @RequestMapping("/usr/article/write")
@@ -49,36 +53,18 @@ public class UsrArticleController {
         return Util.jsReplace(String.format("%d번 게시글이 생성되었습니다.", id), "detail?id="+id);
     }
 
-    @RequestMapping("/usr/article/allList")
-    public String getAllArticles(Model model) {
+    @RequestMapping("/usr/article/list")
+    public String getAllArticles(Model model, int boardId) {
+        Board board = boardService.getBoardById(boardId);
 
-        List<Article> articles = articleService.getAllArticles();
+        List<Article> articles = articleService.getAllArticles(boardId);
 
         model.addAttribute("articles", articles);
+        model.addAttribute("board", board);
 
         return "usr/article/list";
     }
 
-    @RequestMapping("/usr/article/freeList")
-    public String getFreeArticles(Model model, int boardId) {
-
-        List<Article> articles = articleService.getFreeArticles(boardId);
-
-        model.addAttribute("articles", articles);
-
-        return "usr/article/list";
-    }
-
-
-    @RequestMapping("/usr/article/noticeList")
-    public String getNoticeArticles(Model model, int boardId) {
-
-        List<Article> articles = articleService.getNoticeArticles(boardId);
-
-        model.addAttribute("articles", articles);
-
-        return "usr/article/list";
-    }
 
     @RequestMapping("/usr/article/detail")
     public String getArticle(Model model, int id, HttpServletRequest request) {

@@ -34,26 +34,12 @@
     <select id="getAllArticles" resultType="Article">
         select a.*, m.nickname as writerName
         from article as a
-                 inner join `member` as m
-                            on a.memberId = m.id
-        order by a.id desc;
-    </select>
-
-    <select id="getFreeArticles" resultType="Article">
-        select a.*, m.nickname as writerName
-        from article as a
-                 inner join `member` as m
-                            on a.memberId = m.id
-        where a.boardId = #{id}
-        order by a.id desc;
-    </select>
-
-    <select id="getNoticeArticles" resultType="Article">
-        select a.*, m.nickname as writerName
-        from article as a
-                 inner join `member` as m
-                            on a.memberId = m.id
-        where a.boardId = #{id}
+        inner join `member` as m
+        on a.memberId = m.id
+        where 1 = 1
+        <if test="boardId == 1 or boardId == 2">
+            AND a.boardId = #{boardId}
+        </if>
         order by a.id desc;
     </select>
 

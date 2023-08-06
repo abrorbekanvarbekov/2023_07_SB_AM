@@ -28,10 +28,6 @@ public class ArticleService {
         articleDao.deleteArticle(id);
     }
 
-    public List<Article> getFreeArticles(int id){
-        return articleDao.getFreeArticles(id);
-    }
-
     public void modifyArticle(int id, String title, String body) {
         articleDao.modifyArticle(id, title, body);
     }
@@ -44,11 +40,7 @@ public class ArticleService {
         return articleDao.getArticleByNickname(id);
     }
 
-    public List<Article> getNoticeArticles(int id) {
-        return articleDao.getNoticeArticles(id);
-    }
-
-    public List<Article> getAllArticles() {
-        return articleDao.getAllArticles();
+    public List<Article> getAllArticles(int boardId) {
+        return articleDao.getAllArticles(boardId);
     }
 }

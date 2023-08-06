@@ -10,7 +10,21 @@
             <div class="table-box-type-1">
                 <table border="1">
                     <tbody>
-                    <input type="hidden" value="${param.id}" name="boardId">
+<%--                    <input type="hidden" value="${param.id}" name="boardId">--%>
+                    <tr>
+                        <th>게시판</th>
+                        <td>
+                            <label>
+                                <input type="radio" name="boardId" value="2">
+                                &nbsp;공지사항
+                            </label>
+                            &nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="boardId" value="1" checked>
+                                &nbsp;자유
+                            </label>
+                        </td>
+                    </tr>
                     <tr>
                         <th>Title</th>
                         <td>

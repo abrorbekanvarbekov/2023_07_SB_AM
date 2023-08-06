@@ -14,15 +14,11 @@ public interface ArticleDao {
 
     public void deleteArticle(int id);
 
-    public List<Article> getFreeArticles(int id);
-
     public void modifyArticle(int id, String title, String body);
 
     public int getLastInsertId();
 
     public Article getArticleByNickname(int id);
 
-    public List<Article> getNoticeArticles(int id);
-
-    public List<Article> getAllArticles();
+    public List<Article> getAllArticles(int boardId);
 }
