@@ -13,6 +13,15 @@
             boardId = #{boardId}
     </insert>
 
+    <select id="getArticleCountByBoard" resultType="int">
+        select count(*)
+        from article
+        where 1 = 1
+        <if test="boardId != 0">
+            and boardId = #{boardId};
+        </if>
+    </select>
+
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID()
     </select>
@@ -37,7 +46,7 @@
         inner join `member` as m
         on a.memberId = m.id
         where 1 = 1
-        <if test="boardId == 1 or boardId == 2">
+        <if test="boardId != 0">
             AND a.boardId = #{boardId}
         </if>
         order by a.id desc;

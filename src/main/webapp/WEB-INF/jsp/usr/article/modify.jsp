@@ -12,7 +12,7 @@
                     <tbody>
                     <tr>
                         <th>번호</th>
-                        <td>${article.id}</td>
+                        <td><span class="badge badge-neutral">${article.id}</span></td>
                     </tr>
                     <tr>
                         <th>작성일</th>

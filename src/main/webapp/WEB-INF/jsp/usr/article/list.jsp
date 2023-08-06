@@ -4,9 +4,13 @@
 <c:set var="pageTitle" value="${board.name} 게시판"/>
 <%@include file="../common/head.jsp" %>
 
+
 <section class="mt-8">
     <div class="container mx-auto">
         <div class="table-box-type-1">
+            <div>
+                총 : ${articleCnt}개
+            </div>
             <table border="1">
                 <thead>
                 <tr>
@@ -30,7 +34,7 @@
         </div>
         <c:if test="${rq.loginedMemberId != 0}">
             <div class="flex mt-8 justify-end">
-                <a class="btn btn-outline btn-accent w-60" href="write?id=${param.boardId}">Write</a>
+                <a class="btn btn-outline btn-accent w-60" href="write">Write</a>
             </div>
         </c:if>
     </div>

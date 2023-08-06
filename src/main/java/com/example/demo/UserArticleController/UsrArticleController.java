@@ -28,7 +28,7 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/usr/article/write")
-    public String writer(int id) {
+    public String writer() {
         return "usr/article/writer";
     }
 
@@ -54,13 +54,19 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/usr/article/list")
-    public String getAllArticles(Model model, int boardId) {
+    public String getAllArticles(Model model, int boardId, HttpServletRequest request) {
+        Rq rq = (Rq) request.getAttribute("rq");
+
+        if (boardId !=0 && boardId != 1 && boardId != 2){
+             return rq.jsReturnOnView("게시판이 존재하지 않습니다.");
+        }
+
         Board board = boardService.getBoardById(boardId);
-
         List<Article> articles = articleService.getAllArticles(boardId);
-
+        int articleCntByBoard = articleService.getArticleCountByBoard(boardId);
         model.addAttribute("articles", articles);
         model.addAttribute("board", board);
+        model.addAttribute("articleCnt", articleCntByBoard);
 
         return "usr/article/list";
     }

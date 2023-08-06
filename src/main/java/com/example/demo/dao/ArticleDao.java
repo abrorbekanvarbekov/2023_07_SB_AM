@@ -21,4 +21,6 @@ public interface ArticleDao {
     public Article getArticleByNickname(int id);
 
     public List<Article> getAllArticles(int boardId);
+
+    int getArticleCountByBoard(int boardId);
 }
