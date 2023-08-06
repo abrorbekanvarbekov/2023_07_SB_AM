@@ -3,49 +3,67 @@
 
 <mapper namespace="com.example.demo.dao.ArticleDao">
 
-    <insert id="writeArticle" >
+    <insert id="writeArticle">
         INSERT INTO article
         SET regDate = now(),
             updateDate = now(),
             title = #{title},
             body = #{body},
-            memberId = #{memberId}
+            memberId = #{memberId},
+            boardId = #{boardId}
     </insert>
 
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID()
     </select>
 
-    <select id="getArticleById" resultType="Article" >
+    <select id="getArticleById" resultType="Article">
         select *
-            from article
-            where id = #{id}
+        from article
+        where id = #{id}
     </select>
 
-    <select id="getArticleByNickname" resultType="Article" >
+    <select id="getArticleByNickname" resultType="Article">
         select a.*, m.nickname as writerName
         from article as a
-        inner join `member` as m
-        on a.memberId = m.id
+                 inner join `member` as m
+                            on a.memberId = m.id
         where a.id = #{id}
     </select>
 
-    <select id="getArticles" resultType="Article">
+    <select id="getAllArticles" resultType="Article">
         select a.*, m.nickname as writerName
         from article as a
-            inner join `member` as m
-            on a.memberId = m.id
+                 inner join `member` as m
+                            on a.memberId = m.id
         order by a.id desc;
     </select>
 
+    <select id="getFreeArticles" resultType="Article">
+        select a.*, m.nickname as writerName
+        from article as a
+                 inner join `member` as m
+                            on a.memberId = m.id
+        where a.boardId = #{id}
+        order by a.id desc;
+    </select>
+
+    <select id="getNoticeArticles" resultType="Article">
+        select a.*, m.nickname as writerName
+        from article as a
+                 inner join `member` as m
+                            on a.memberId = m.id
+        where a.boardId = #{id}
+        order by a.id desc;
+    </select>
 
     <delete id="deleteArticle">
         DELETE
-            FROM article
-            WHERE id = #{id}
+        FROM article
+        WHERE id = #{id}
     </delete>
 
-    <update id="modifyArticle" >
+    <update id="modifyArticle">
         UPDATE article
         <set>
             updateDate = now(),

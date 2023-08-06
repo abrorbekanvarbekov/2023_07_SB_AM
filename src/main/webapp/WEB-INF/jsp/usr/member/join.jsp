@@ -13,36 +13,44 @@
                     <tr>
                         <th>LoginId</th>
                         <td>
-                            <input class="w-full" type="text" placeholder="LoginId" name="loginId">
+                            <input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="LoginId" name="loginId">
                         </td>
                     </tr>
                     <tr>
                         <th>loginPw</th>
-                        <td><input class="w-full" type="text" placeholder="LoginPw" name="loginPw"></td>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="LoginPw" name="loginPw"></td>
                     </tr>
                     <tr>
                         <th>LoginPwCheck</th>
-                        <td><input class="w-full" type="text" placeholder="loginPwCheck" name="loginPwCheck"></td>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="loginPwCheck" name="loginPwCheck"></td>
                     </tr>
                     <tr>
                         <th>Name</th>
-                        <td><input class="w-full" type="text" placeholder="name" name="name"></td>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="name" name="name"></td>
                     </tr>
                     <tr>
                         <th>Nickname</th>
-                        <td><input class="w-full" type="text" placeholder="nickname" name="nickname"></td>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="nickname" name="nickname"></td>
                     </tr>
                     <tr>
                         <th>CellphoneNum</th>
-                        <td><input class="w-full" type="text" placeholder="cellphoneNum" name="cellphoneNum"></td>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="cellphoneNum" name="cellphoneNum"></td>
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <td><input class="w-full" type="text" placeholder="email" name="email"></td>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="email" name="email"></td>
                     </tr>
                     <tr>
                         <th colspan="2">
-                            <button class="w-full" type="submit">Login</button>
+                            <button class="w-60 btn btn-outline btn-accent" type="submit">Login
+                            </button>
                         </th>
                     </tr>
                     </tbody>
@@ -50,8 +58,8 @@
             </div>
         </form>
         <div class="mt-8">
-            <button onclick="history.back();" class="btn-text-link">뒤로가기</button>
-            <a href="login">Login PAge</a>
+            <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
+            <a  class="btn btn-outline btn-accent" href="login">Login PAge</a>
         </div>
     </div>
 </section>

@@ -29,6 +29,11 @@
                 </tbody>
             </table>
         </div>
+        <c:if test="${rq.loginedMemberId != 0}">
+            <div class="flex mt-8 justify-end">
+                <a class="btn btn-outline btn-accent w-60" href="write?id=${param.boardId}">Write</a>
+            </div>
+        </c:if>
     </div>
 </section>
 

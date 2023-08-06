@@ -1,13 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.ArticleDao;
-import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
-import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -19,8 +16,8 @@ public class ArticleService {
         this.articleDao = articleDao;
     }
 
-    public void writeArticle(String title, String body, int memberId){
-        articleDao.writeArticle(title, body, memberId);
+    public void writeArticle(String title, String body, int memberId, int boardId){
+        articleDao.writeArticle(title, body, memberId, boardId);
     }
 
     public Article getArticleById(int id) {
@@ -31,8 +28,8 @@ public class ArticleService {
         articleDao.deleteArticle(id);
     }
 
-    public List<Article> getArticles(){
-        return articleDao.getArticles();
+    public List<Article> getFreeArticles(int id){
+        return articleDao.getFreeArticles(id);
     }
 
     public void modifyArticle(int id, String title, String body) {
@@ -45,5 +42,13 @@ public class ArticleService {
 
     public Article getArticleByNickname(int id) {
         return articleDao.getArticleByNickname(id);
+    }
+
+    public List<Article> getNoticeArticles(int id) {
+        return articleDao.getNoticeArticles(id);
+    }
+
+    public List<Article> getAllArticles() {
+        return articleDao.getAllArticles();
     }
 }

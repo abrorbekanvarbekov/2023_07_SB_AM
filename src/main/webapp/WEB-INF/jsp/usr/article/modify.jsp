@@ -27,22 +27,22 @@
                         <td>${article.writerName}</td>
                     </tr>
 
-                        <input class="w-full" type="hidden" placeholder="제목을 입력해주세요" value="${article.id}"name="id">
+                        <input type="hidden" placeholder="제목을 입력해주세요" value="${article.id}"name="id">
 
                     <tr>
                         <th>Title</th>
-                        <td><input class="w-full" value="${article.title}" type="text" placeholder="제목을 입력해주세요"
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" value="${article.title}" type="text" placeholder="제목을 입력해주세요"
                                    name="title">
                         </td>
                     </tr>
                     <tr>
                         <th>Body</th>
-                        <td><input class="w-full" value="${article.body}" type="text" placeholder="내용을 입력해주세요"
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" value="${article.body}" type="text" placeholder="내용을 입력해주세요"
                                    name="body"></td>
                     </tr>
                     <tr>
                         <th colspan="2">
-                            <button class="w-full" type="submit"
+                            <button class="w-60 btn btn-outline btn-accent" type="submit"
                                     onclick="if(confirm('정말 수정하시겠습니까?') == false) return false;">Modify
                             </button>
                         </th>
@@ -52,7 +52,7 @@
             </div>
         </form>
         <div class="mt-8">
-            <button onclick="history.back();" class="btn-text-link">뒤로가기</button>
+            <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
         </div>
     </div>
 </section>
