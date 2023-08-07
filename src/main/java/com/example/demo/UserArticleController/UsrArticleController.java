@@ -56,7 +56,9 @@ public class UsrArticleController {
     @RequestMapping("/usr/article/list")
     public String getAllArticles(Model model,
                                  @RequestParam(defaultValue = "1") int boardId,
-                                 @RequestParam(defaultValue = "1") int page) {
+                                 @RequestParam(defaultValue = "1") int page,
+                                 @RequestParam(defaultValue = "") String searchKeyword,
+                                 @RequestParam(defaultValue = "title") String selectKey) {
 
         if (page <= 0){
             return rq.jsReturnOnView("페이지 번호가 옳바르지 않습니다.");
@@ -68,13 +70,13 @@ public class UsrArticleController {
             return rq.jsReturnOnView("존재하지 않는 게시판입니다.");
         }
 
-        int articleCntByBoard = articleService.getArticleCountByBoard(boardId);
+        int articleCntByBoard = articleService.getArticleCountByBoard(boardId, searchKeyword, selectKey);
 
         int itemsInPage = 10;
         int limitFrom = (page - 1) * itemsInPage;
         int totalPage = (int) Math.ceil((double) articleCntByBoard / itemsInPage);
 
-        List<Article> articles = articleService.getAllArticles(boardId, limitFrom, itemsInPage);
+        List<Article> articles = articleService.getAllArticles(boardId, limitFrom, itemsInPage, searchKeyword, selectKey);
 
         int pageSize = 5;
         int from = page - pageSize;
@@ -91,8 +93,8 @@ public class UsrArticleController {
         model.addAttribute("articleCnt", articleCntByBoard);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("page", page);
-        model.addAttribute("from", from);
-        model.addAttribute("end", end);
+        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("selectKey", selectKey);
 
         return "usr/article/list";
     }

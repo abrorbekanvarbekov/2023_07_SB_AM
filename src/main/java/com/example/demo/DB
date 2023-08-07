@@ -2,66 +2,123 @@ drop database if exists SB_AM;
 CREATE DATABASE SB_AM;
 USE SB_AM;
 
-CREATE TABLE article(
-    id int unsigned not null primary key auto_increment,
-    regDate datetime not null,
-    updateDate datetime not null,
-    title varchar(200) not null,
-    `body` text not null
+CREATE TABLE article
+(
+    id         int unsigned not null primary key auto_increment,
+    regDate    datetime     not null,
+    updateDate datetime     not null,
+    title      varchar(200) not null,
+    `body`     text         not null
 );
 
-insert into article
-set regDate = now(),
-    updateDate = now(),
-    title = '제목1',
-    `body` = '내용1';
 
 insert into article
-set regDate = now(),
+set regDate    = now(),
     updateDate = now(),
-    title = '제목2',
-    `body` = '내용2';
+    title      = '제목3',
+    `body`     = '내용3',
+    memberId   = 1,
+    boardId    = 1;
 
 insert into article
-set regDate = now(),
+set regDate    = now(),
     updateDate = now(),
-    title = '제목3',
-    `body` = '내용3';
+    title      = '제목3',
+    `body`     = '내용3',
+    memberId   = 2,
+    boardId    = 2;
 
-
-select * from article;
+select *
+from article;
 drop table if exists member;
 
-create table member(
-    id int unsigned not null primary key auto_increment,
-    regDate datetime not null,
-    updateDate datetime not null,
-    loginId varchar(20) not null unique ,
-    loginPw varchar(100) not null,
-    `authLevel` tinyint unsigned not null default 1 comment '권한 라벨 (일반 = 1, 관리자 = 3)',
-    `name` varchar(20) not null,
-    nickname varchar(20) not null,
-    cellphoneNum varchar(20) not null,
-    email varchar(50) not null,
-    delStatus tinyint unsigned not null default 0 comment '탈퇴여부 (탈퇴 전  = 0, 탈퇴 후 = 1)',
-    delDate datetime comment '회원 탈퇴 날짜'
+create table member
+(
+    id           int unsigned     not null primary key auto_increment,
+    regDate      datetime         not null,
+    updateDate   datetime         not null,
+    loginId      varchar(20)      not null unique,
+    loginPw      varchar(100)     not null,
+    `authLevel`  tinyint unsigned not null default 1 comment '권한 라벨 (일반 = 1, 관리자 = 3)',
+    `name`       varchar(20)      not null,
+    nickname     varchar(20)      not null,
+    cellphoneNum varchar(20)      not null,
+    email        varchar(50)      not null,
+    delStatus    tinyint unsigned not null default 0 comment '탈퇴여부 (탈퇴 전  = 0, 탈퇴 후 = 1)',
+    delDate      datetime comment '회원 탈퇴 날짜'
 );
 
-alter table article add column memberId int not null;
+alter table article
+    add column memberId int not null;
 
 insert into member
-    set regDate = now(),
-        updateDate = now(),
-        loginId = 'admin',
-        loginPw = 'admin',
-        `authLevel` = 3,
-        `name` = 'admin',
-        nickname = 'admin',
-        cellphoneNum = 01012345678,
-        email = 'admin@gmail.com';
+set regDate      = now(),
+    updateDate   = now(),
+    loginId      = 'admin',
+    loginPw      = 'admin',
+    `authLevel`  = 3,
+    `name`       = 'admin',
+    nickname     = 'admin',
+    cellphoneNum = 01012345678,
+    email        = 'admin@gmail.com';
+
+alter table article
+    add column boardId int unsigned not null after memberId;
+
+create table board
+(
+    id         int unsigned     not null primary key auto_increment,
+    regDate    datetime         not null,
+    updateDate datetime         not null,
+    `code`     varchar(20)      not null unique comment 'notice(공지사항), free(자유), ...',
+    `name`     varchar(20)      not null unique comment '게시판 이름',
+    delStatus  tinyint unsigned not null default 0 comment '삭제여부 (삭제 전  = 0, 삭제 후 = 1)',
+    delDate    datetime comment '삭제 날짜'
+);
+
+insert into board
+set regDate    = now(),
+    updateDate = now(),
+    `code`     = 'free',
+    `name`= '자유';
 
 
-truncate article;
+insert into board
+set regDate    = now(),
+    updateDate = now(),
+    `code`     = 'notice',
+    `name`= '공지사항';
+
+select COUNT(*)
+from article
+where 1 = 1;
 
 
-select * from article;
+select *
+from article;
+select *
+from member;
+select *
+from board;
+
+insert into article(regDate, updateDate, title, `body`, memberId, boardId)
+select now(),now(), concat('내용_', floor(rand() * 10) + 1), concat('내용_', floor(rand() * 10) + 1), 3 , 1 from article;
+
+
+# create table board(
+#     noticeBoard int not null,
+#     freeBoard int not null
+# );
+#
+# # insert into board
+# # set noticeBoard = 1,
+# #     freeBoard = 2;
+# #
+# #
+# #
+# # select a.*, m.nickname as writerName
+# # from article as a
+# #          inner join `member` as m
+# #                     on a.memberId = m.id
+# # where a.board = 2
+# # order by a.id desc;

@@ -7,18 +7,29 @@
         INSERT INTO article
         SET regDate = now(),
             updateDate = now(),
-            title = #{title},
-            body = #{body},
-            memberId = #{memberId},
-            boardId = #{boardId}
+            title = #{title}, body = #{body}, memberId = #{memberId}, boardId = #{boardId}
     </insert>
 
     <select id="getArticleCountByBoard" resultType="int">
         select count(*)
         from article
-        where 1 = 1
-        <if test="boardId != 0">
-            and boardId = #{boardId};
+        where boardId = #{boardId}
+        <if test="searchKeyword != ''">
+            <choose>
+                <when test="selectKey == 'title'">
+                    and title LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="selectKey == 'body'">
+                    and body LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <otherwise>
+                    and (
+                    body LIKE CONCAT('%', #{searchKeyword}, '%')
+                    or
+                    body LIKE CONCAT('%', #{searchKeyword}, '%')
+                    )
+                </otherwise>
+            </choose>
         </if>
     </select>
 
@@ -45,9 +56,23 @@
         from article as a
         inner join `member` as m
         on a.memberId = m.id
-        where 1 = 1
-        <if test="boardId != 0">
-            AND a.boardId = #{boardId}
+        where a.boardId = #{boardId}
+        <if test="searchKeyword != ''">
+            <choose>
+                <when test="selectKey == 'title'">
+                    and a.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="selectKey == 'body'">
+                    and a.body LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <otherwise>
+                    and (
+                    a.body LIKE CONCAT('%', #{searchKeyword}, '%')
+                    or
+                    a.body LIKE CONCAT('%', #{searchKeyword}, '%')
+                    )
+                </otherwise>
+            </choose>
         </if>
         order by a.id desc
         limit #{limitFrom}, #{itemsInPage};

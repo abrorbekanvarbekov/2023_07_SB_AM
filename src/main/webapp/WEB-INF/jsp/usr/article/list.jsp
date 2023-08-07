@@ -8,8 +8,25 @@
 <section class="mt-8">
     <div class="container mx-auto">
         <div class="table-box-type-1">
-            <div class="mb-2">
-                <span>총 : ${articleCnt}개</span>
+            <div class="flex justify-between mb-2">
+                <div class="flex items-center">
+                    <span>총 : ${articleCnt}개</span>
+                </div>
+                <div class="flex justify-between w-2/4">
+                    <form action="" method="get" class="flex justify-between w-full">
+                        <input type="hidden" value="${board.id}" name="boardId">
+                        <select data-value="${selectKey}" class="select select-warning w-2/5 max-w-xs" name="selectKey">
+                            <option value="title">제목</option>
+                            <option value="body">내용</option>
+                            <option value="title, body">제목 + 내용</option>
+                        </select>
+                        <div class="flex w-full justify-end">
+                            <input type="search" value="${searchKeyword}" name="searchKeyword" placeholder="검색어를 입력하세요"
+                                   class="input input-bordered input-success w-4/5 max-w-xs w-2/4">
+                            <button class="btn btn-active btn-accent w-1/5" type="submit">검색</button>
+                        </div>
+                    </form>
+                </div>
             </div>
             <table border="1">
                 <thead>
@@ -41,27 +58,29 @@
 
         <div class="mt-2 flex justify-center">
             <div class="join">
+                <c:set var="pageMenuLen" value="5"/>
+                <c:set var="startPage" value="${page - pageMenuLen > 1 ? page - pageMenuLen : 1}"/>
+                <c:set var="endPage" value="${page + pageMenuLen < totalPage ?  page + pageMenuLen : totalPage}"/>
+                <c:set var="pageBaseUri" value="list?boardId=${board.id}&searchKeyword=${searchKeyword}&selectKey=${selectKey}"/>
+
                 <c:if test="${page == 1}">
                     <a class="join-item btn btn-disabled">«</a>
                     <a class="join-item btn btn-disabled">&lt;</a>
                 </c:if>
                 <c:if test="${page > 1}">
-                    <a class="join-item btn" href="list?boardId=${board.id}&page=1">«</a>
-                    <a class="join-item btn" href="list?boardId=${board.id}&page=${page - 1}">&lt;</a>
+                    <a class="join-item btn" href="${pageBaseUri}&page=1">«</a>
+                    <a class="join-item btn" href="${pageBaseUri}&page=${page - 1}">&lt;</a>
                 </c:if>
 
-                <c:set var="pageMenuLen" value="5"/>
-                <c:set var="startPage" value="${page - pageMenuLen > 1 ? page - pageMenuLen : 1}"/>
-                <c:set var="endPage" value="${page + pageMenuLen < totalPage ?  page + pageMenuLen : totalPage}"/>
 
                 <c:forEach var="i" begin="${startPage}" end="${endPage}">
                     <a class="join-item btn btn-md ${page == i ? 'btn-active' : ''}"
-                       href="list?boardId=${board.id}&page=${i}">${i}</a>
+                       href="${pageBaseUri}&page=${i}">${i}</a>
                 </c:forEach>
 
                 <c:if test="${page < totalPage}">
-                    <a class="join-item btn" href="list?boardId=${board.id}&page=${page + 1}">&gt;</a>
-                    <a class="join-item btn" href="list?boardId=${board.id}&page=${totalPage}">»</a>
+                    <a class="join-item btn" href="${pageBaseUri}&page=${page + 1}">&gt;</a>
+                    <a class="join-item btn" href="${pageBaseUri}&page=${totalPage}">»</a>
                 </c:if>
                 <c:if test="${page == totalPage}">
                     <a class="join-item btn btn-disabled">»</a>

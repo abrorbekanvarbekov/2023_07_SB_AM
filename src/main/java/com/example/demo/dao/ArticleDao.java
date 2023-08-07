@@ -20,8 +20,8 @@ public interface ArticleDao {
 
     public Article getArticleByNickname(int id);
 
-    public List<Article> getAllArticles(int boardId, int limitFrom, int itemsInPage);
+    public List<Article> getAllArticles(int boardId, int limitFrom, int itemsInPage, String searchKeyword, String selectKey);
 
-    int getArticleCountByBoard(int boardId);
+    public int getArticleCountByBoard(int boardId, String searchKeyword, String selectKey);
 
 }
