@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.UserArticleController;
 
 import com.example.demo.vo.Rq;
 import org.springframework.stereotype.Controller;

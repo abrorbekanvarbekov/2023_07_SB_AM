@@ -1,7 +1,5 @@
 package com.example.demo.UserArticleController;
 
-import com.example.demo.UserHomeController;
-import com.example.demo.dao.ArticleDao;
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Member;
@@ -9,27 +7,24 @@ import com.example.demo.vo.ResultDate;
 import com.example.demo.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserMemberController {
     private MemberService memberService;
+    private Rq rq;
 
     @Autowired
-    public UserMemberController(MemberService memberService){
+    public UserMemberController(MemberService memberService, Rq rq){
         this.memberService = memberService;
+        this.rq = rq;
     }
 
     @RequestMapping("usr/member/join")
-    public String Join(Model model){
+    public String Join(){
         return "usr/member/join";
     }
 
@@ -62,7 +57,6 @@ public class UserMemberController {
             return Util.jsHistoryBack("이메일을 입력해주세요.");
         }
 
-
         ResultDate<Member> doJoinMember = memberService.doJoin(loginId,loginPw,name, nickname,cellphoneNum,email);
 
         return Util.jsReplace(doJoinMember.getMsg(), "login");
@@ -75,9 +69,7 @@ public class UserMemberController {
 
     @RequestMapping("usr/member/doLogin")
     @ResponseBody
-    public String doLogin(String loginId, String loginPw, HttpServletRequest request, HttpSession session){
-
-        Rq rq = (Rq) request.getAttribute("rq");
+    public String doLogin(String loginId, String loginPw){
 
         if (rq.getLoginedMemberId()!= 0){
             return Util.jsHistoryBack("이미 로그인 상태 입니다.");
@@ -106,9 +98,7 @@ public class UserMemberController {
 
     @RequestMapping("usr/member/doLogOut")
     @ResponseBody
-    public String doLogOut(HttpServletRequest request){
-
-        Rq rq = (Rq) request.getAttribute("rq");
+    public String doLogOut(){
 
         rq.logout();
         return Util.jsReplace("로그아웃 되었습니다.", "/");

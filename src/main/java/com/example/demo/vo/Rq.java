@@ -2,12 +2,17 @@ package com.example.demo.vo;
 
 import com.example.demo.util.Util;
 import lombok.Getter;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Rq {
     @Getter
     private int loginedMemberId;
@@ -27,6 +32,8 @@ public class Rq {
         }
 
         this.loginedMemberId = loginedMemberId;
+
+        this.request.setAttribute("rq", this);
     }
 
     public void jsPrintHistoryBack(String msg){
@@ -51,5 +58,9 @@ public class Rq {
     public String jsReturnOnView(String msg) {
         this.request.setAttribute("msg", msg);
         return "usr/article/errorPage";
+    }
+
+    public void init() {
+
     }
 }

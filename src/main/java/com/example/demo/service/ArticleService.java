@@ -40,11 +40,12 @@ public class ArticleService {
         return articleDao.getArticleByNickname(id);
     }
 
-    public List<Article> getAllArticles(int boardId) {
-        return articleDao.getAllArticles(boardId);
+    public List<Article> getAllArticles(int boardId, int limitFrom, int itemsInPage) {
+        return articleDao.getAllArticles(boardId, limitFrom, itemsInPage);
     }
 
     public int getArticleCountByBoard(int boardId) {
         return articleDao.getArticleCountByBoard(boardId);
     }
+
 }
