@@ -10,6 +10,12 @@
             title = #{title}, body = #{body}, memberId = #{memberId}, boardId = #{boardId}
     </insert>
 
+    <update id="increaseVCnt">
+        update article
+        set views = views + 1
+        where id = #{id}
+    </update>
+
     <select id="getArticleCountByBoard" resultType="int">
         select count(*)
         from article

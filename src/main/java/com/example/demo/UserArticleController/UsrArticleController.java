@@ -103,10 +103,13 @@ public class UsrArticleController {
     @RequestMapping("/usr/article/detail")
     public String getArticle(Model model, int id) {
 
-        Article foundArticle = articleService.getArticleByNickname(id);
-        if (foundArticle == null) {
+        int resultCode = articleService.increaseVCnt(id);
+
+        if (resultCode == 0){
             return rq.jsReturnOnView(id + "번 게시글이 존재하지 않습니다");
         }
+
+        Article foundArticle = articleService.getArticleByNickname(id);
 
         model.addAttribute("article", foundArticle);
         return "usr/article/detail";

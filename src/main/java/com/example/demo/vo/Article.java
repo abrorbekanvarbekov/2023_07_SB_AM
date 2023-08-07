@@ -17,4 +17,5 @@ public class Article {
     private String body;
     private int memberId;
     private String writerName;
+    private int views;
 }

@@ -48,4 +48,7 @@ public class ArticleService {
         return articleDao.getArticleCountByBoard(boardId, searchKeyword, selectKey);
     }
 
+    public int increaseVCnt(int id) {
+        return articleDao.increaseVCnt(id);
+    }
 }
