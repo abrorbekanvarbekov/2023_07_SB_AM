@@ -25,4 +25,7 @@ public interface ArticleDao {
     public int getArticleCountByBoard(int boardId, String searchKeyword, String selectKey);
 
     public int increaseVCnt(int id);
+
+    public int getArticleHitCnt(int id);
+
 }

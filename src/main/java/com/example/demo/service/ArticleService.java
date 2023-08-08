@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.vo.Article;
+import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,16 @@ public class ArticleService {
         return articleDao.getArticleCountByBoard(boardId, searchKeyword, selectKey);
     }
 
-    public int increaseVCnt(int id) {
-        return articleDao.increaseVCnt(id);
+    public ResultDate increaseVCnt(int id) {
+        int affectedRowsCnt =  articleDao.increaseVCnt(id);
+
+        if (affectedRowsCnt == 0){
+            return ResultDate.from("F-1", "해당 게시글이 존재하지 않습니다.");
+        }
+        return ResultDate.from("S-1", "조회수 증가");
+    }
+
+    public int getArticleHitCnt(int id) {
+        return articleDao.getArticleHitCnt(id);
     }
 }

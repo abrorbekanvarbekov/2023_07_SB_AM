@@ -5,6 +5,24 @@
 <c:set var="pageTitle" value="Detail"/>
 <%@include file="../common/head.jsp" %>
 
+<script>
+
+    function ArticleDetail_increaseHitCnt(){
+        $.get('doIncreaseVCnt', {
+
+            id : ${article.id}
+
+        }, function (data){
+
+            $('#articleDetail_increaseHitCnt').empty().html(data.data1);
+
+        }, 'json')
+    }
+
+    ArticleDetail_increaseHitCnt();
+    // setTimeout(ArticleDetail_increaseHitCnt, 2000)
+</script>
+
 <section class="mt-8">
     <div class="container mx-auto">
         <div class="table-box-type-1">
@@ -36,7 +54,7 @@
                 </tr>
                 <tr>
                     <th>조회수</th>
-                    <td>${article.views}</td>
+                    <td><span id="articleDetail_increaseHitCnt">${article.views}</span></td>
                 </tr>
                 </tbody>
             </table>

@@ -5,6 +5,7 @@ import com.example.demo.service.BoardService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
+import com.example.demo.vo.ResultDate;
 import com.example.demo.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -103,16 +104,27 @@ public class UsrArticleController {
     @RequestMapping("/usr/article/detail")
     public String getArticle(Model model, int id) {
 
-        int resultCode = articleService.increaseVCnt(id);
-
-        if (resultCode == 0){
-            return rq.jsReturnOnView(id + "번 게시글이 존재하지 않습니다");
-        }
-
         Article foundArticle = articleService.getArticleByNickname(id);
 
         model.addAttribute("article", foundArticle);
         return "usr/article/detail";
+    }
+
+    @RequestMapping("/usr/article/doIncreaseVCnt")
+    @ResponseBody
+    public ResultDate doIncreaseVCnt(int id){
+
+        ResultDate increaseVCnt = articleService.increaseVCnt(id);
+
+        if (increaseVCnt.isFail()){
+            return increaseVCnt;
+        }
+
+        ResultDate rd = ResultDate.from(increaseVCnt.getResultCode(), increaseVCnt.getMsg(), "hitCnt", articleService.getArticleHitCnt(id));
+
+        rd.setData2("id", id);
+
+        return rd;
     }
 
     @RequestMapping("/usr/article/doDelete")

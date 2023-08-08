@@ -49,6 +49,12 @@
         where id = #{id}
     </select>
 
+    <select id="getArticleHitCnt" resultType="int">
+        select views
+        from article
+        where id = #{id}
+    </select>
+
     <select id="getArticleByNickname" resultType="Article">
         select a.*, m.nickname as writerName
         from article as a
