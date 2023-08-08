@@ -8,14 +8,19 @@
 <script>
 
     function ArticleDetail_increaseHitCnt(){
+
+        const localStorageKey = 'article_[' + ${article.id} + ']_alreadyView';
+
+        if (localStorage.getItem(localStorageKey)){
+            return;
+        }
+
+        localStorage.setItem(localStorageKey, true);
+
         $.get('doIncreaseVCnt', {
-
             id : ${article.id}
-
         }, function (data){
-
             $('#articleDetail_increaseHitCnt').empty().html(data.data1);
-
         }, 'json')
     }
 
