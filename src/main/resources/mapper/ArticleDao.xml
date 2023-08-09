@@ -49,25 +49,34 @@
         where id = #{id}
     </select>
 
-    <select id="getArticleHitCnt" resultType="int">
-        select views
-        from article
-        where id = #{id}
-    </select>
-
     <select id="getArticleByNickname" resultType="Article">
         select a.*, m.nickname as writerName
         from article as a
                  inner join `member` as m
                             on a.memberId = m.id
-        where a.id = #{id}
+        where a.id = #{id};
+    </select>
+
+    <select id="getArticleReactionPoint" resultType="Article">
+        select a.*, p.relId as relId, p.point as point
+        from article as a
+                 inner join reactionPoint as p
+                            on a.id = p.relId
+        where a.id = #{id};
     </select>
 
     <select id="getAllArticles" resultType="Article">
-        select a.*, m.nickname as writerName
+        select a.*,
+            m.nickname as writerName,
+            ifnull(sum(RP.point), 0) as sumReactionPoint,
+            sum(if(RP.point &gt; 0, RP.point, 0)) as goodReactionPoint,
+            sum(if(RP.point &lt; 0, RP.point, 0)) as badReactionPoint
         from article as a
         inner join `member` as m
         on a.memberId = m.id
+        left join reactionPoint as RP
+        on RP.relTypeCode = 'article'
+        and a.id = RP.relId
         where a.boardId = #{boardId}
         <if test="searchKeyword != ''">
             <choose>
@@ -86,6 +95,7 @@
                 </otherwise>
             </choose>
         </if>
+        group by a.id
         order by a.id desc
         limit #{limitFrom}, #{itemsInPage};
     </select>

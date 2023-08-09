@@ -49,16 +49,11 @@ public class ArticleService {
         return articleDao.getArticleCountByBoard(boardId, searchKeyword, selectKey);
     }
 
-    public ResultDate increaseVCnt(int id) {
-        int affectedRowsCnt =  articleDao.increaseVCnt(id);
-
-        if (affectedRowsCnt == 0){
-            return ResultDate.from("F-1", "해당 게시글이 존재하지 않습니다.");
-        }
-        return ResultDate.from("S-1", "조회수 증가");
+    public int increaseVCnt(int id) {
+        return articleDao.increaseVCnt(id);
     }
 
-    public int getArticleHitCnt(int id) {
-        return articleDao.getArticleHitCnt(id);
+    public Article getArticleReactionPoint(int id) {
+        return articleDao.getArticleReactionPoint(id);
     }
 }

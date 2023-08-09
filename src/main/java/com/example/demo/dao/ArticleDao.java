@@ -26,6 +26,5 @@ public interface ArticleDao {
 
     public int increaseVCnt(int id);
 
-    public int getArticleHitCnt(int id);
-
+    public Article getArticleReactionPoint(int id);
 }

@@ -8,16 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Article {
+public class ReactionPoint {
     private int id;
     private String regDate;
     private String updateDate;
-    private String title;
-    private String body;
     private int memberId;
-    private String writerName;
-    private int views;
-    private int goodReactionPoint;
-    private int badReactionPoint;
-    private int sumReactionPoint;
+    private String relTypeCode;
+    private int relId;
+    private int point;
 }

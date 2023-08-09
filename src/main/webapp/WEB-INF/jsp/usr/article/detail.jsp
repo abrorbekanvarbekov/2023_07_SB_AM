@@ -5,28 +5,6 @@
 <c:set var="pageTitle" value="Detail"/>
 <%@include file="../common/head.jsp" %>
 
-<script>
-
-    function ArticleDetail_increaseHitCnt(){
-
-        const localStorageKey = 'article_[' + ${article.id} + ']_alreadyView';
-
-        if (localStorage.getItem(localStorageKey)){
-            return;
-        }
-
-        localStorage.setItem(localStorageKey, true);
-
-        $.get('doIncreaseVCnt', {
-            id : ${article.id}
-        }, function (data){
-            $('#articleDetail_increaseHitCnt').empty().html(data.data1);
-        }, 'json')
-    }
-
-    ArticleDetail_increaseHitCnt();
-    // setTimeout(ArticleDetail_increaseHitCnt, 2000)
-</script>
 
 <section class="mt-8">
     <div class="container mx-auto">
@@ -64,11 +42,26 @@
                 </tbody>
             </table>
         </div>
+        <div class="flex w-full justify-center mt-5">
+            <c:if test="${reactionPointArticle == null}">
+                <a href=""><span class="material-symbols-outlined mr-8 ">thumb_up</span></a>
+                <a href=""><span class="material-symbols-outlined ml-8 ">thumb_down</span></a>
+            </c:if>
+            <c:if test="${reactionPointArticle.point == 1}">
+                <a href=""><span class="material-symbols-outlined mr-8 text-red-600">thumb_up</span></a>
+                <a href=""><span class="material-symbols-outlined ml-8 ">thumb_down</span></a>
+            </c:if>
+            <c:if test="${reactionPointArticle.point != 1}">
+                <a href=""><span class="material-symbols-outlined mr-8 ">thumb_up</span></a>
+                <a href=""><span class="material-symbols-outlined ml-8 text-red-600">thumb_down</span></a>
+            </c:if>
+        </div>
         <div class="mt-8">
             <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
             <c:if test="${article.memberId == rq.loginedMemberId}">
                 <a class="btn btn-outline btn-accent" href="modify?id=${article.id}">Modify</a>
-                <a class="btn btn-outline btn-accent" href="doDelete?id=${article.id}" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">Delete</a>
+                <a class="btn btn-outline btn-accent" href="doDelete?id=${article.id}"
+                   onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">Delete</a>
             </c:if>
         </div>
     </div>

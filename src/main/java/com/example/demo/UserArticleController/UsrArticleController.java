@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -102,30 +104,48 @@ public class UsrArticleController {
 
 
     @RequestMapping("/usr/article/detail")
-    public String getArticle(Model model, int id) {
+    public String getArticle(Model model, int id , HttpServletRequest request, HttpServletResponse response) {
 
         Article foundArticle = articleService.getArticleByNickname(id);
 
+        if (foundArticle == null){
+            return rq.jsReturnOnView("해당 게시글이 존재하지 않습니다.");
+        }
+
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null){
+            for (Cookie cookie : cookies){
+                if (cookie.getName().equals("hitCnt")){
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if (oldCookie != null){
+            if (!oldCookie.getValue().contains("[" + id + "]")){
+                articleService.increaseVCnt(id);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(10);
+                response.addCookie(oldCookie);
+            }
+        }else {
+            articleService.increaseVCnt(id);
+            Cookie newCookie = new Cookie("hitCnt", "[" + id + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(10);
+            response.addCookie(newCookie);
+        }
+
+        Article reactionPointArticle = articleService.getArticleReactionPoint(foundArticle.getId());
+
         model.addAttribute("article", foundArticle);
+        model.addAttribute("reactionPointArticle", reactionPointArticle);
         return "usr/article/detail";
     }
 
-    @RequestMapping("/usr/article/doIncreaseVCnt")
-    @ResponseBody
-    public ResultDate doIncreaseVCnt(int id){
-
-        ResultDate increaseVCnt = articleService.increaseVCnt(id);
-
-        if (increaseVCnt.isFail()){
-            return increaseVCnt;
-        }
-
-        ResultDate rd = ResultDate.from(increaseVCnt.getResultCode(), increaseVCnt.getMsg(), "hitCnt", articleService.getArticleHitCnt(id));
-
-        rd.setData2("id", id);
-
-        return rd;
-    }
 
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody
