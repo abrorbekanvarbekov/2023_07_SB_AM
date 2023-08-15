@@ -7,49 +7,53 @@
 
 <script>
 
+    function goodPoint() {
+        $.get('../reactionPoint/doInsertReactionPoint', {
+            relTypeCode: "article",
+            relId: ${article.id},
+            point: 1
+        }, function (data) {
+
+        }, 'json')
+    }
+
+    function badPoint() {
+        $.get('../reactionPoint/doInsertReactionPoint', {
+            relTypeCode: "article",
+            relId: ${article.id},
+            point: -1
+        }, function (data) {
+
+        }, 'json')
+    }
+
+    function deletePoint(){
+        $.get('../reactionPoint/doDeleteReactionPoint', {
+            relTypeCode: "article",
+            relId: ${article.id},
+        }, function (data) {
+
+        }, 'json')
+    }
+
     function getReactionPoint() {
         $.get('../reactionPoint/getReactionPoint', {
             relTypeCode: 'article',
             relId: ${article.id}
         }, function (data) {
             const point = data.data1.point;
-            console.log(point);
             if (point == 1) {
                 $('#goodPoint').removeClass("btn-outline");
+                $('#goodPoint').attr("onclick", "deletePoint();");
             } else if (point == -1) {
                 $('#badPoint').removeClass("btn-outline");
+                $('#badPoint').attr("onclick", "deletePoint();");
             }
 
         }, 'json')
     }
 
     getReactionPoint();
-
-
-    function goodPoint() {
-        $.get('reactionPoint', {
-            relTypeCode: "article",
-            relId: ${article.id},
-            point: 1
-        }, function (data) {
-            console.log(data);
-        }, 'json')
-
-    }
-
-    function badPoint() {
-
-        $.get('reactionPoint', {
-            relTypeCode: "article",
-            relId: ${article.id},
-            memberId: ${article.memberId},
-            point: -1
-        }, function (data) {
-            console.log(data);
-        }, 'json')
-
-    }
-
 </script>
 
 
@@ -91,8 +95,8 @@
                     <td>
                         <c:if test="${rq.loginedMemberId != 0}">
                             <div class="flex justify-center items-center mb-2">
-                                <a href="" id="goodPoint" class="btn btn-outline btn-accent btn-sm mr-3"
-                                   onclick="goodPoint();">
+                                <a onclick="goodPoint();" href=""
+                                   id="goodPoint" class="btn btn-outline btn-accent btn-sm mr-3">
                                     <span class="material-symbols-outlined ">thumb_up</span>
                                 </a>
                                 <span>좋아요 : ${article.goodReactionPoint}</span>개
@@ -100,8 +104,7 @@
                         </c:if>
                         <c:if test="${rq.loginedMemberId != 0}">
                             <div class="flex justify-center items-center">
-                                <a href="" id="badPoint" class="btn btn-outline btn-accent btn-sm mr-2"
-                                   onclick="badPoint();">
+                                <a onclick="badPoint();" href="" id="badPoint" class="btn btn-outline btn-accent btn-sm mr-2">
                                     <span class="material-symbols-outlined ">thumb_down</span>
                                 </a>
                                 <span>싫어요 : ${article.badReactionPoint}</span>개
