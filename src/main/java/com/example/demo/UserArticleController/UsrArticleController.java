@@ -3,10 +3,7 @@ package com.example.demo.UserArticleController;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
 import com.example.demo.util.Util;
-import com.example.demo.vo.Article;
-import com.example.demo.vo.Board;
-import com.example.demo.vo.ResultDate;
-import com.example.demo.vo.Rq;
+import com.example.demo.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +36,7 @@ public class UsrArticleController {
 
     @RequestMapping("/usr/article/doWrite")
     @ResponseBody
-    public String doAdd(String title, String body, int boardId) {
+    public String doAdd(String title, String body, int boardId, @RequestParam(defaultValue = "0") int views) {
 
         if (title == null || title.trim().length() == 0) {
             return Util.jsHistoryBack("제목을 입력해주세요");
@@ -50,7 +47,7 @@ public class UsrArticleController {
         }
 
         int memberId = rq.getLoginedMemberId();
-        articleService.writeArticle(title, body, memberId, boardId);
+        articleService.writeArticle(title, body, memberId, boardId, views);
         int id = articleService.getLastInsertId();
 
         return Util.jsReplace(String.format("%d번 게시글이 생성되었습니다.", id), "detail?id=" + id);
@@ -63,7 +60,7 @@ public class UsrArticleController {
                                  @RequestParam(defaultValue = "") String searchKeyword,
                                  @RequestParam(defaultValue = "title") String selectKey) {
 
-        if (page <= 0){
+        if (page <= 0) {
             return rq.jsReturnOnView("페이지 번호가 옳바르지 않습니다.");
         }
 
@@ -83,11 +80,11 @@ public class UsrArticleController {
 
         int pageSize = 5;
         int from = page - pageSize;
-        if(from < 1){
+        if (from < 1) {
             from = 1;
         }
         int end = page + pageSize;
-        if (end > totalPage){
+        if (end > totalPage) {
             end = totalPage;
         }
 
@@ -104,34 +101,34 @@ public class UsrArticleController {
 
 
     @RequestMapping("/usr/article/detail")
-    public String getArticle(Model model, int id , HttpServletRequest request, HttpServletResponse response) {
+    public String getArticle(Model model, int id, HttpServletRequest request, HttpServletResponse response) {
 
         Article foundArticle = articleService.getArticleByNickname(id);
 
-        if (foundArticle == null){
+        if (foundArticle == null) {
             return rq.jsReturnOnView("해당 게시글이 존재하지 않습니다.");
         }
 
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
 
-        if (cookies != null){
-            for (Cookie cookie : cookies){
-                if (cookie.getName().equals("hitCnt")){
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("hitCnt")) {
                     oldCookie = cookie;
                 }
             }
         }
 
-        if (oldCookie != null){
-            if (!oldCookie.getValue().contains("[" + id + "]")){
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + id + "]")) {
                 articleService.increaseVCnt(id);
                 oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
                 oldCookie.setPath("/");
                 oldCookie.setMaxAge(10);
                 response.addCookie(oldCookie);
             }
-        }else {
+        } else {
             articleService.increaseVCnt(id);
             Cookie newCookie = new Cookie("hitCnt", "[" + id + "]");
             newCookie.setPath("/");
@@ -139,13 +136,22 @@ public class UsrArticleController {
             response.addCookie(newCookie);
         }
 
-        Article reactionPointArticle = articleService.getArticleReactionPoint(foundArticle.getId());
 
         model.addAttribute("article", foundArticle);
-        model.addAttribute("reactionPointArticle", reactionPointArticle);
         return "usr/article/detail";
     }
 
+    @RequestMapping("/usr/article/reactionPoint")
+    public String reactionPoint(String relTypeCode, int relId, int point) {
+//        List<Article> articles = articleService.getReactionPointArticle(relId, memberId);
+
+        int memberId = rq.getLoginedMemberId();
+
+        int pointType = point == -1 ? -1 : 1;
+        articleService.addReactionPoint(relTypeCode, relId, memberId, pointType);
+
+        return null;
+    }
 
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody
@@ -161,7 +167,7 @@ public class UsrArticleController {
         }
 
         articleService.deleteArticle(id);
-        return Util.jsReplace(String.format("%d번 게시물이 삭제되었습니다", id), "allList");
+        return Util.jsReplace(String.format("%d번 게시물이 삭제되었습니다", id), "list");
     }
 
     @RequestMapping("/usr/article/modify")

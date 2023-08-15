@@ -54,6 +54,3 @@
     </div>
 </section>
 <%@include file="../common/foot.jsp" %>
-<%--<input class="w-60 input input-bordered input-info w-full max-w-xs"--%>
-<%--       type="text" placeholder="내용을 입력해주세요"--%>
-<%--       name="body">--%>

@@ -1,10 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.BoardDao;
-import com.example.demo.dao.MemberDao;
 import com.example.demo.vo.Board;
-import com.example.demo.vo.Member;
-import com.example.demo.vo.ResultDate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

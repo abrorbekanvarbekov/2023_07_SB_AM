@@ -5,6 +5,53 @@
 <c:set var="pageTitle" value="Detail"/>
 <%@include file="../common/head.jsp" %>
 
+<script>
+
+    function getReactionPoint() {
+        $.get('../reactionPoint/getReactionPoint', {
+            relTypeCode: 'article',
+            relId: ${article.id}
+        }, function (data) {
+            const point = data.data1.point;
+            console.log(point);
+            if (point == 1) {
+                $('#goodPoint').removeClass("btn-outline");
+            } else if (point == -1) {
+                $('#badPoint').removeClass("btn-outline");
+            }
+
+        }, 'json')
+    }
+
+    getReactionPoint();
+
+
+    function goodPoint() {
+        $.get('reactionPoint', {
+            relTypeCode: "article",
+            relId: ${article.id},
+            point: 1
+        }, function (data) {
+            console.log(data);
+        }, 'json')
+
+    }
+
+    function badPoint() {
+
+        $.get('reactionPoint', {
+            relTypeCode: "article",
+            relId: ${article.id},
+            memberId: ${article.memberId},
+            point: -1
+        }, function (data) {
+            console.log(data);
+        }, 'json')
+
+    }
+
+</script>
+
 
 <section class="mt-8">
     <div class="container mx-auto">
@@ -39,22 +86,34 @@
                     <th>조회수</th>
                     <td><span id="articleDetail_increaseHitCnt">${article.views}</span></td>
                 </tr>
+                <tr>
+                    <th>추천</th>
+                    <td>
+                        <c:if test="${rq.loginedMemberId != 0}">
+                            <div class="flex justify-center items-center mb-2">
+                                <a href="" id="goodPoint" class="btn btn-outline btn-accent btn-sm mr-3"
+                                   onclick="goodPoint();">
+                                    <span class="material-symbols-outlined ">thumb_up</span>
+                                </a>
+                                <span>좋아요 : ${article.goodReactionPoint}</span>개
+                            </div>
+                        </c:if>
+                        <c:if test="${rq.loginedMemberId != 0}">
+                            <div class="flex justify-center items-center">
+                                <a href="" id="badPoint" class="btn btn-outline btn-accent btn-sm mr-2"
+                                   onclick="badPoint();">
+                                    <span class="material-symbols-outlined ">thumb_down</span>
+                                </a>
+                                <span>싫어요 : ${article.badReactionPoint}</span>개
+                            </div>
+                        </c:if>
+                        <c:if test="${rq.loginedMemberId == 0}">
+                            <span>${article.sumReactionPoint}</span>
+                        </c:if>
+                    </td>
+                </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="flex w-full justify-center mt-5">
-            <c:if test="${reactionPointArticle == null}">
-                <a href=""><span class="material-symbols-outlined mr-8 ">thumb_up</span></a>
-                <a href=""><span class="material-symbols-outlined ml-8 ">thumb_down</span></a>
-            </c:if>
-            <c:if test="${reactionPointArticle.point == 1}">
-                <a href=""><span class="material-symbols-outlined mr-8 text-red-600">thumb_up</span></a>
-                <a href=""><span class="material-symbols-outlined ml-8 ">thumb_down</span></a>
-            </c:if>
-            <c:if test="${reactionPointArticle.point != 1}">
-                <a href=""><span class="material-symbols-outlined mr-8 ">thumb_up</span></a>
-                <a href=""><span class="material-symbols-outlined ml-8 text-red-600">thumb_down</span></a>
-            </c:if>
         </div>
         <div class="mt-8">
             <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>

@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.dao.ArticleDao;
 import com.example.demo.vo.Article;
-import com.example.demo.vo.ResultDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,8 @@ public class ArticleService {
         this.articleDao = articleDao;
     }
 
-    public void writeArticle(String title, String body, int memberId, int boardId){
-        articleDao.writeArticle(title, body, memberId, boardId);
+    public void writeArticle(String title, String body, int memberId, int boardId, int views){
+        articleDao.writeArticle(title, body, memberId, boardId, views);
     }
 
     public Article getArticleById(int id) {
@@ -53,7 +52,15 @@ public class ArticleService {
         return articleDao.increaseVCnt(id);
     }
 
-    public Article getArticleReactionPoint(int id) {
-        return articleDao.getArticleReactionPoint(id);
+    public void addReactionPoint(String relTypeCode, int relId, int memberId, int point) {
+        articleDao.addReactionPoint(relTypeCode ,relId, memberId, point);
+    }
+
+    public List<Article> getReactionPointArticle(int relId, int memberId) {
+        return articleDao.getReactionPointArticle(relId, memberId);
+    }
+
+    public void removeReactionPoint(int relId) {
+        articleDao.removeReactionPoint(relId);
     }
 }
