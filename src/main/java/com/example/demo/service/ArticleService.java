@@ -56,11 +56,4 @@ public class ArticleService {
         articleDao.addReactionPoint(relTypeCode ,relId, memberId, point);
     }
 
-    public List<Article> getReactionPointArticle(int relId, int memberId) {
-        return articleDao.getReactionPointArticle(relId, memberId);
-    }
-
-    public void removeReactionPoint(int relId) {
-        articleDao.removeReactionPoint(relId);
-    }
 }

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
     private BeforeActionInterceptor beforeActionInterceptor;
     private NeedLoginInterceptor needLoginInterceptor;
+
     @Autowired
     public MyWebMvcConfigurer(BeforeActionInterceptor beforeActionInterceptor, NeedLoginInterceptor needLoginInterceptor) {
         this.beforeActionInterceptor = beforeActionInterceptor;
@@ -19,7 +20,10 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(beforeActionInterceptor).addPathPatterns("/**").excludePathPatterns("/resource/**");
+        registry.addInterceptor(beforeActionInterceptor)
+                .addPathPatterns("/**")
+                .addPathPatterns("/favicon.ico")
+                .excludePathPatterns("/resource/**");
         registry.addInterceptor(needLoginInterceptor)
                 .addPathPatterns("/usr/article/doAdd")
                 .addPathPatterns("/usr/article/doDelete")
@@ -27,7 +31,11 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/usr/article/modify")
                 .addPathPatterns("/usr/article/write")
                 .addPathPatterns("/usr/article/doWrite")
-                .addPathPatterns("/usr/member/doLogOut");
+                .addPathPatterns("/usr/member/doLogOut")
+                .addPathPatterns("/usr/reactionPoint/getReactionPoint")
+                .addPathPatterns("/usr/reactionPoint/doInsertReactionPoint")
+                .addPathPatterns("/usr/reactionPoint/doDeleteReactionPoint")
+                .addPathPatterns("/usr/reply/doWrite");
     }
 
 }

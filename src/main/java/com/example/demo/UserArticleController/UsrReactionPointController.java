@@ -1,7 +1,6 @@
 package com.example.demo.UserArticleController;
 
 import com.example.demo.service.ReactionPointService;
-import com.example.demo.util.Util;
 import com.example.demo.vo.ReactionPoint;
 import com.example.demo.vo.ResultDate;
 import com.example.demo.vo.Rq;
@@ -39,11 +38,6 @@ public class UsrReactionPointController {
         }
 
         reactionPointService.doInsertReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId, point);
-//        if (point == 1) {
-//            return Util.jsReplace(String.format("%d번 게시글 좋아요", relId), String.format("../article/detail?id=%d", relId));
-//        }else {
-//            return Util.jsReplace(String.format("%d번 게시글 싫어요", relId), String.format("../article/detail?id=%d", relId));
-//        }
         return null;
     }
 
@@ -52,11 +46,6 @@ public class UsrReactionPointController {
     public String doDeleteReactionPoint(String relTypeCode, int relId) {
 
         reactionPointService.doDeleteReactionPoint(rq.getLoginedMemberId(), relTypeCode, relId);
-//        if (point == 1) {
-//            return Util.jsReplace(String.format("%d번 게시글 좋아요 취소", relId), String.format("../article/detail?id=%d", relId));
-//        }else {
-//            return Util.jsReplace(String.format("%d번 게시글 싫어요 취소", relId), String.format("../article/detail?id=%d", relId));
-//        }
         return null;
     }
 }

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
-public class UserHomeController {
+public class UsrHomeController {
 
     @RequestMapping("/usr/home/main")
     public String showMain(Model model, HttpServletResponse response, HttpServletRequest request){

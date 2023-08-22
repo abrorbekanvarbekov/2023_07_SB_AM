@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-public class UserMemberController {
+public class UsrMemberController {
     private MemberService memberService;
     private Rq rq;
 
     @Autowired
-    public UserMemberController(MemberService memberService, Rq rq){
+    public UsrMemberController(MemberService memberService, Rq rq){
         this.memberService = memberService;
         this.rq = rq;
     }

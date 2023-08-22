@@ -44,4 +44,15 @@ public class Util {
                                 
                 """, msg, uri);
     }
+
+    public static String jsReplace(String uri) {
+        if (uri == null){
+            uri = "";
+        }
+        return String.format("""
+                <script>
+                    location.replace('%s');
+                </script>
+                """,uri);
+    }
 }

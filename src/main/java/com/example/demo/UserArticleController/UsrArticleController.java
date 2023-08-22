@@ -2,6 +2,8 @@ package com.example.demo.UserArticleController;
 
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.MemberService;
+import com.example.demo.service.ReplyService;
 import com.example.demo.util.Util;
 import com.example.demo.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,16 @@ import java.util.List;
 public class UsrArticleController {
     private ArticleService articleService;
     private BoardService boardService;
+    private ReplyService replyService;
+    private MemberService memberService;
     private Rq rq;
 
     @Autowired
-    public UsrArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
+    public UsrArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, MemberService memberService, Rq rq) {
         this.articleService = articleService;
         this.boardService = boardService;
+        this.replyService = replyService;
+        this.memberService = memberService;
         this.rq = rq;
     }
 
@@ -103,12 +109,6 @@ public class UsrArticleController {
     @RequestMapping("/usr/article/detail")
     public String getArticle(Model model, int id, HttpServletRequest request, HttpServletResponse response) {
 
-        Article foundArticle = articleService.getArticleByNickname(id);
-
-        if (foundArticle == null) {
-            return rq.jsReturnOnView("해당 게시글이 존재하지 않습니다.");
-        }
-
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
 
@@ -136,22 +136,21 @@ public class UsrArticleController {
             response.addCookie(newCookie);
         }
 
+        Article foundArticle = articleService.getArticleByNickname(id);
+
+        if (foundArticle == null) {
+            return rq.jsReturnOnView("해당 게시글이 존재하지 않습니다.");
+        }
+
+        List<Reply> replyList = replyService.getReplyList(id);
+        Member member = memberService.getMemberById(rq.getLoginedMemberId());
 
         model.addAttribute("article", foundArticle);
+        model.addAttribute("replyList", replyList);
+        model.addAttribute("member", member);
         return "usr/article/detail";
     }
 
-    @RequestMapping("/usr/article/reactionPoint")
-    public String reactionPoint(String relTypeCode, int relId, int point) {
-//        List<Article> articles = articleService.getReactionPointArticle(relId, memberId);
-
-        int memberId = rq.getLoginedMemberId();
-
-        int pointType = point == -1 ? -1 : 1;
-        articleService.addReactionPoint(relTypeCode, relId, memberId, pointType);
-
-        return null;
-    }
 
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody

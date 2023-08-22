@@ -27,7 +27,7 @@
         }, 'json')
     }
 
-    function deletePoint(){
+    function deletePoint() {
         $.get('../reactionPoint/doDeleteReactionPoint', {
             relTypeCode: "article",
             relId: ${article.id},
@@ -57,9 +57,9 @@
 </script>
 
 
-<section class="mt-8">
-    <div class="container mx-auto">
-        <div class="table-box-type-1">
+<section class="mt-4 ">
+    <div class="container mx-auto border-bottom-line py-4">
+        <div class="table-box-type-1 ">
             <table border="1">
                 <tbody>
                 <tr>
@@ -80,7 +80,7 @@
                 </tr>
                 <tr>
                     <th>내용</th>
-                    <td>${article.body}</td>
+                    <td>${article.getForPrintBody()}</td>
                 </tr>
                 <tr>
                     <th>작성자</th>
@@ -104,7 +104,8 @@
                         </c:if>
                         <c:if test="${rq.loginedMemberId != 0}">
                             <div class="flex justify-center items-center">
-                                <a onclick="badPoint();" href="" id="badPoint" class="btn btn-outline btn-accent btn-sm mr-2">
+                                <a onclick="badPoint();" href="" id="badPoint"
+                                   class="btn btn-outline btn-accent btn-sm mr-2">
                                     <span class="material-symbols-outlined ">thumb_down</span>
                                 </a>
                                 <span>싫어요 : ${article.badReactionPoint}</span>개
@@ -118,15 +119,47 @@
                 </tbody>
             </table>
         </div>
-        <div class="mt-8">
-            <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
-            <c:if test="${article.memberId == rq.loginedMemberId}">
-                <a class="btn btn-outline btn-accent" href="modify?id=${article.id}">Modify</a>
-                <a class="btn btn-outline btn-accent" href="doDelete?id=${article.id}"
-                   onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">Delete</a>
-            </c:if>
+        <div class="flex mt-8 justify-between">
+            <div>
+                <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
+                <c:if test="${article.memberId == rq.loginedMemberId}">
+                    <a class="btn btn-outline btn-accent" href="modify?id=${article.id}">Modify</a>
+                    <a class="btn btn-outline btn-accent" href="doDelete?id=${article.id}"
+                       onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">Delete</a>
+                </c:if>
+            </div>
         </div>
     </div>
 </section>
 
+<section class="mt-4 mb-5">
+    <div class="container mx-auto px-3 text-xl">
+        <h2>댓글</h2>
+        <c:forEach var="reply" items="${replyList}">
+            <div class="text-base py-2 pl-16 border-bottom-line">
+                <div class=""><span>@${reply.writerName}</span></div>
+                <div class="my-1 text-lg pl-2"><span>${reply.getForPrintBody()}</span></div>
+                <div class="text-xs text-gray-400"><span>${reply.updateDate}</span></div>
+            </div>
+        </c:forEach>
+        <c:if test="${rq.loginedMemberId != 0}">
+            <form action="/usr/reply/doWrite" method="post">
+                <div class="mt-4 border border-gray-400 rounded-lg p-4 text-base">
+                    <div class="mb-2"><span>@${rq.loginedMember.nickname}</span></div>
+                    <div class="">
+                        <input type="hidden" name="articleId" value="${article.id}">
+                        <input type="hidden" name="relTypeCode" value="article">
+                        <textarea class="textarea textarea-bordered w-full" name="replyBody" placeholder="댓글을 남겨보세요..."></textarea>
+                    </div>
+                    <div class="mt-3 flex justify-end">
+                        <button class="btn btn-accent btn-sm">등록...</button>
+                    </div>
+                </div>
+            </form>
+        </c:if>
+        <div class="mt-8">
+            <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
+        </div>
+    </div>
+</section>
 <%@include file="../common/foot.jsp" %>

@@ -28,3 +28,7 @@ html > body {
     color: darkred;
     text-decoration: underline;
 }
+
+.border-bottom-line {
+    border-bottom: 1px solid rgba(156, 163, 175, 0.2);
+}
