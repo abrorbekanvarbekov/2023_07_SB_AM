@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 
 @Controller
 public class UsrReplyController {
@@ -35,7 +33,7 @@ public class UsrReplyController {
     @RequestMapping("/usr/reply/doModify")
     @ResponseBody
     public String ReplyDoModify(int replyId, String body){
-        Reply foundReply = replyService.getReplyByArticleId(replyId);
+        Reply foundReply = replyService.getReply(replyId);
 
         if (foundReply == null){
             return Util.jsHistoryBack("해당 댓글이 존재하지 않습니다.");
@@ -46,15 +44,29 @@ public class UsrReplyController {
         }
 
         replyService.doModify(replyId, body);
-        return String.format("/usr/article/detail?id=%d", foundReply.getArticleId());
+        return Util.jsReplace("/usr/article/detail?id=" + foundReply.getArticleId());
     }
+
+
+    @RequestMapping("/usr/reply/getReplyContent")
+    @ResponseBody
+    public ResultDate<Reply> getReplyContent(int id){
+        Reply reply = replyService.getReply(id);
+
+        if (reply == null){
+            return ResultDate.from("F-1","해당 댓글이 존재하지 않습니다.");
+        }
+
+        return ResultDate.from("S-1", "댓글 조회 성공", "reply", reply);
+    }
+
 
 
     @RequestMapping("/usr/reply/doDelete")
     @ResponseBody
     public String ReplyDoDelete(int id){
 
-        Reply foundReply = replyService.getReplyByArticleId(id);
+        Reply foundReply = replyService.getReply(id);
 
         if (foundReply == null){
             return Util.jsHistoryBack("해당 댓글이 존재하지 않습니다.");

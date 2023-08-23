@@ -34,11 +34,6 @@ public interface ReplyDao {
             """)
     void doDeleteReply(int id);
 
-    @Select("""
-            select * from reply
-            where id = #{id}
-            """)
-    Reply getReplyByArticleId(int id);
 
     @Update("""
             update reply
@@ -54,4 +49,10 @@ public interface ReplyDao {
             where articleId = #{id}
             """)
     int getReplyCnt(int id);
+
+    @Select("""
+            select * from reply
+            where id = #{id}
+            """)
+    Reply getReply(int id);
 }

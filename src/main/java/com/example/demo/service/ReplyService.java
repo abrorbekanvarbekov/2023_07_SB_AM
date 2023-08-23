@@ -26,15 +26,15 @@ public class ReplyService {
         replyDao.doDeleteReply(id);
     }
 
-    public Reply getReplyByArticleId(int id) {
-        return replyDao.getReplyByArticleId(id);
-    }
-
     public void doModify(int id, String body) {
         replyDao.doModify(id, body);
     }
 
     public int getReplyCnt(int id) {
         return replyDao.getReplyCnt(id);
+    }
+
+    public Reply getReply(int id) {
+        return replyDao.getReply(id);
     }
 }
