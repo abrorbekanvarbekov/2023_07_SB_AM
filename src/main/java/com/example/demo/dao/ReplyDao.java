@@ -1,10 +1,7 @@
 package com.example.demo.dao;
 
-import com.example.demo.vo.Article;
 import com.example.demo.vo.Reply;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -31,4 +28,30 @@ public interface ReplyDao {
             """)
     List<Reply> getReplyList(int articleId);
 
+    @Delete("""
+            delete from reply
+            where id = #{id}
+            """)
+    void doDeleteReply(int id);
+
+    @Select("""
+            select * from reply
+            where id = #{id}
+            """)
+    Reply getReplyByArticleId(int id);
+
+    @Update("""
+            update reply
+            set updateDate = now(),
+                `body` = #{body}
+            where id = #{id}
+            """)
+    void doModify(int id, String body);
+
+    @Select("""
+            select count(*)
+            from reply
+            where articleId = #{id}
+            """)
+    int getReplyCnt(int id);
 }

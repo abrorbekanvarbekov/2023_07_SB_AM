@@ -32,3 +32,10 @@ html > body {
 .border-bottom-line {
     border-bottom: 1px solid rgba(156, 163, 175, 0.2);
 }
+
+.position{
+    width: 100%;
+    top: 700px;
+    left: inherit;
+    right: inherit;
+}

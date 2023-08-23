@@ -143,10 +143,12 @@ public class UsrArticleController {
         }
 
         List<Reply> replyList = replyService.getReplyList(id);
+        int replyCnt = replyService.getReplyCnt(id);
         Member member = memberService.getMemberById(rq.getLoginedMemberId());
 
         model.addAttribute("article", foundArticle);
         model.addAttribute("replyList", replyList);
+        model.addAttribute("replyCnt", replyCnt);
         model.addAttribute("member", member);
         return "usr/article/detail";
     }
