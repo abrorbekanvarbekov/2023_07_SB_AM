@@ -1,5 +1,6 @@
 package com.example.demo.vo;
 
+import com.example.demo.service.MemberService;
 import com.example.demo.util.Util;
 import lombok.Getter;
 import org.springframework.context.annotation.Scope;
@@ -22,7 +23,7 @@ public class Rq {
     private HttpServletResponse response;
     private HttpSession session;
 
-    public Rq(HttpServletRequest request, HttpServletResponse response){
+    public Rq(HttpServletRequest request, HttpServletResponse response, MemberService memberService){
         HttpSession session = request.getSession();
         this.request = request;
         this.response = response;
@@ -32,7 +33,7 @@ public class Rq {
         Member loginedMember = null;
         if (session.getAttribute("loginedMemberId") != null){
             loginedMemberId = (int) session.getAttribute("loginedMemberId");
-            loginedMember = (Member) session.getAttribute("loginedMember");
+            loginedMember = memberService.getMemberById(loginedMemberId);
         }
 
         this.loginedMemberId = loginedMemberId;
@@ -53,12 +54,10 @@ public class Rq {
 
     public void login(Member member) {
         this.session.setAttribute("loginedMemberId", member.getId());
-        this.session.setAttribute("loginedMember", member);
     }
 
     public void logout() {
         this.session.removeAttribute("loginedMemberId");
-        this.session.removeAttribute("loginedMember");
     }
 
     public String jsReturnOnView(String msg) {

@@ -43,15 +43,6 @@
         update member
         <set>
             updateDate = now(),
-            <if test="loginId != null and loginId != ''">
-                loginId = #{loginId},
-            </if>
-            <if test="loginPw != null and loginPw != ''">
-                loginPw = #{loginPw},
-            </if>
-            <if test="name != null and name != ''">
-                `name` = #{name},
-            </if>
             <if test="nickname != null and nickname != ''">
                 nickname = #{nickname},
             </if>
@@ -59,11 +50,19 @@
                 cellphoneNum = #{cellphoneNum},
             </if>
             <if test="email != null and email != ''">
-                email = #{email}
+                email = #{email},
             </if>
         </set>
         where id = #{id}
     </update>
+
+    <update id="doPasswordModify">
+        update member
+            set updateDate = now(),
+            loginPw = #{loginPw}
+        where id = #{id}
+    </update>
+
     <select id="getMemberById" resultType="Member">
         select *from member
         where id = #{id}

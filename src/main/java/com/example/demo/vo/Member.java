@@ -2,6 +2,7 @@ package com.example.demo.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Member {
     private int id;
-    private LocalDateTime regDate;
+    private String regDate;
     private LocalDateTime updateDate;
     private String loginId;
     private String loginPw;
@@ -22,4 +23,5 @@ public class Member {
     private String email;
     private int delStatus;
     private LocalDateTime delDate;
+
 }

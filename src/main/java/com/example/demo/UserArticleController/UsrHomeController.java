@@ -5,16 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
 public class UsrHomeController {
 
+    private Rq rq;
+
+    public UsrHomeController(Rq rq) {
+        this.rq = rq;
+    }
+
     @RequestMapping("/usr/home/main")
-    public String showMain(Model model, HttpServletResponse response, HttpServletRequest request){
-        Rq rq = new Rq(request, response);
+    public String showMain(Model model ){
         model.addAttribute("loginedMember", rq.getLoginedMemberId());
         return "usr/home/home";
     }

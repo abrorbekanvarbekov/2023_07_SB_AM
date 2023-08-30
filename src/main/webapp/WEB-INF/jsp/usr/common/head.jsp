@@ -12,25 +12,28 @@
     <!-- 폰트어썸 불러오기 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
     <%-- google Icons   --%>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="/resource/common.css" type="text/css">
     <script src="/resource/common.js" defer="defer"></script>
     <title>${pageTitle}</title>
 </head>
 <body>
-<div class="h-20 container flex mx-auto text-4xl">
+<div class="h-20 container flex mx-auto text-4xl mt-2">
     <a class="px-3 flex items-center" href="">LoGo</a>
     <div class="flex-grow"></div>
     <ul class="flex">
         <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/">HOME</a></li>
-        <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/article/list?boardId=1">F_LIST</a></li>
-        <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/article/list?boardId=2">N_LIST</a></li>
+        <li class="hover:underline"><a class="h-full px-3 flex items-center"
+                                       href="/usr/article/list?boardId=1">F_LIST</a></li>
+        <li class="hover:underline"><a class="h-full px-3 flex items-center"
+                                       href="/usr/article/list?boardId=2">N_LIST</a></li>
         <c:if test="${rq.getLoginedMemberId() == 0}">
             <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/login">LOGIN</a></li>
         </c:if>
         <c:if test="${rq.getLoginedMemberId() != 0}">
-            <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/doLogOut">LOGOUT</a>
-            </li>
+            <li class="hover:underline"><a href="/usr/member/myPage"class="h-full px-3 flex items-center">MyPAGE</a></li>
+            <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/doLogOut">LOGOUT</a></li>
         </c:if>
     </ul>
 </div>

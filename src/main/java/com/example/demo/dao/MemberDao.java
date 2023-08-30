@@ -14,7 +14,7 @@ public interface MemberDao {
 
     public List<Member> getMembers();
 
-    public void doModify(int id, String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
+    public void doModify(int id, String nickname, String cellphoneNum, String email);
 
     public void doDelete(int id);
 
@@ -27,4 +27,6 @@ public interface MemberDao {
     public Member existsNickName(String nickname);
 
     public Member existsEmailAndName(String name, String email);
+
+    void doPasswordModify(int id, String loginPw);
 }

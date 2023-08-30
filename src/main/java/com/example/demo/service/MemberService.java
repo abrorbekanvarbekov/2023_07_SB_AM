@@ -52,8 +52,8 @@ public class MemberService {
         return memberDao.getMembers();
     }
 
-    public void doModify(int id, String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
-        memberDao.doModify(id, loginId, loginPw, name, nickname, cellphoneNum, email);
+    public void doModify(int id, String nickname, String cellphoneNum, String email) {
+        memberDao.doModify(id, nickname, cellphoneNum, email);
     }
 
     public void doDelete(int id) {
@@ -70,5 +70,9 @@ public class MemberService {
 
     public int getLastInsertId() {
         return memberDao.getLastInsertId();
+    }
+
+    public void doPasswordModify(int loginedMemberId, String loginPw) {
+        memberDao.doPasswordModify( loginedMemberId, loginPw);
     }
 }
