@@ -49,7 +49,6 @@
         <div class="flex mt-8 justify-between">
             <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
             <div>
-                <a class="btn btn-outline btn-accent mr-2" href="passwordModify">비밀번호 변경</a>
                 <a class="btn btn-outline btn-accent" href="passwordChk">회원정보 수정</a>
             </div>
         </div>

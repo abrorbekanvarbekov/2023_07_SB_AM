@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.interceptor.BeforeActionInterceptor;
+import com.example.demo.interceptor.NeedLogOutInterceptor;
 import com.example.demo.interceptor.NeedLoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +12,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
     private BeforeActionInterceptor beforeActionInterceptor;
     private NeedLoginInterceptor needLoginInterceptor;
+    private NeedLogOutInterceptor needLogOutInterceptor;
 
     @Autowired
-    public MyWebMvcConfigurer(BeforeActionInterceptor beforeActionInterceptor, NeedLoginInterceptor needLoginInterceptor) {
+    public MyWebMvcConfigurer(BeforeActionInterceptor beforeActionInterceptor
+            ,NeedLoginInterceptor needLoginInterceptor
+            ,NeedLogOutInterceptor needLogOutInterceptor) {
         this.beforeActionInterceptor = beforeActionInterceptor;
         this.needLoginInterceptor = needLoginInterceptor;
+        this.needLogOutInterceptor = needLogOutInterceptor;
     }
 
     @Override
@@ -32,6 +37,13 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/usr/article/write")
                 .addPathPatterns("/usr/article/doWrite")
                 .addPathPatterns("/usr/member/doLogOut")
+                .addPathPatterns("/usr/member/myPage")
+                .addPathPatterns("/usr/member/passwordChk")
+                .addPathPatterns("/usr/member/doPasswordChk")
+                .addPathPatterns("/usr/member/doModify")
+                .addPathPatterns("/usr/member/passwordModify")
+                .addPathPatterns("/usr/member/doPasswordModify")
+                .addPathPatterns("/usr/member/doDelete")
                 .addPathPatterns("/usr/reactionPoint/getReactionPoint")
                 .addPathPatterns("/usr/reactionPoint/doInsertReactionPoint")
                 .addPathPatterns("/usr/reactionPoint/doDeleteReactionPoint")
@@ -39,6 +51,11 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/usr/reply/doModify")
                 .addPathPatterns("/usr/reply/doDelete")
                 .addPathPatterns("/usr/reply/getReplyContent");
+        registry.addInterceptor(needLogOutInterceptor)
+                .addPathPatterns("/usr/member/join")
+                .addPathPatterns("/usr/member/doJoin")
+                .addPathPatterns("/usr/member/login")
+                .addPathPatterns("/usr/member/doLogin");
     }
 
 }

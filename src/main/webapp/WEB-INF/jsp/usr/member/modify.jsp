@@ -49,8 +49,9 @@
                 </table>
             </div>
         </form>
-        <div class="mt-8">
+        <div class="mt-8 flex justify-between">
             <button onclick="history.back();" class="btn btn-outline btn-accent">뒤로가기</button>
+            <a class="btn btn-outline btn-accent mr-2" href="passwordModify">비밀번호 변경</a>
         </div>
     </div>
 </section>
