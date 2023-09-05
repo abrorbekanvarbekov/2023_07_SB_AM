@@ -7,7 +7,6 @@ import com.example.demo.vo.ResultDate;
 import com.example.demo.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -28,6 +27,28 @@ public class UsrMemberController {
     public String Join(){
         return "usr/member/join";
     }
+
+    @RequestMapping("usr/member/loginIdCheck")
+    @ResponseBody
+    public ResultDate<String> loginIdCheck(String loginId){
+
+        if (Util.empty(loginId)){
+            return ResultDate.from("F-1", "아이디를 입력해주세요!");
+        }
+
+        Member member = memberService.getExistLoginId(loginId);
+
+        if (member != null){
+            return ResultDate.from("F-1", "이미 존재하는 아이디 입니다", "loginId", loginId);
+        }
+
+        if (loginId.length() < 6){
+            return ResultDate.from("F-1", "아이디: 5 ~ 20자 이상여야 합니다", "loginId", loginId);
+        }
+
+        return ResultDate.from("S-1", "사용가능한 아이디 입니다", "loginId", loginId);
+    }
+
 
     @RequestMapping("usr/member/doJoin")
     @ResponseBody
@@ -59,6 +80,10 @@ public class UsrMemberController {
         }
 
         ResultDate<Member> doJoinMember = memberService.doJoin(loginId,loginPw,name, nickname,cellphoneNum,email);
+
+        if(doJoinMember.isFail()){
+            return Util.jsHistoryBack("이미 사용중인 아이디 입니다.");
+        }
 
         return Util.jsReplace(doJoinMember.getMsg(), "login");
     }

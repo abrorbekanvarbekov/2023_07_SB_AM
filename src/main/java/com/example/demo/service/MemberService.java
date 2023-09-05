@@ -75,4 +75,8 @@ public class MemberService {
     public void doPasswordModify(int loginedMemberId, String loginPw) {
         memberDao.doPasswordModify( loginedMemberId, loginPw);
     }
+
+    public Member getExistLoginId(String loginId) {
+        return memberDao.getExistLoginId(loginId);
+    }
 }

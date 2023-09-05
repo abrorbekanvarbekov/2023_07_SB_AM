@@ -29,4 +29,6 @@ public interface MemberDao {
     public Member existsEmailAndName(String name, String email);
 
     void doPasswordModify(int id, String loginPw);
+
+    Member getExistLoginId(String loginId);
 }
