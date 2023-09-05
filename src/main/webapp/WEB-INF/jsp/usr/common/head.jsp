@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/resource/images/favicon.ico">
     <meta name="viewport" content="width=device-width">
     <!-- 테일윈드 불러오기 -->
     <!-- 노말라이즈, 라이브러리 -->
