@@ -8,3 +8,22 @@ $('select[data-value]').each(function (index, item){
     }
 })
 
+$('.modal-exam').click(function (){
+    $('.layer').show();
+    $('.layer-bg').show();
+})
+
+$('#close-btn').click(function (){
+    $('.layer').hide();
+    $('.layer-bg').hide();
+})
+
+$('.layer-bg').click(function (){
+    $('.layer').hide();
+    $('.layer-bg').hide();
+})
+
+$('#close-x-btn').click(function (){
+    $('.layer').hide();
+    $('.layer-bg').hide();
+})
