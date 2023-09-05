@@ -27,6 +27,10 @@ public class UsrHomeController {
         return "redirect:usr/home/main";
     }
 
+    @RequestMapping("/usr/home/popUp.com")
+    public String showPopUp(){
+        return "usr/home/popUp";
+    }
 }
 
 

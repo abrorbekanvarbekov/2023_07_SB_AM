@@ -27,3 +27,9 @@ $('#close-x-btn').click(function (){
     $('.layer').hide();
     $('.layer-bg').hide();
 })
+
+$('.popUp-exam').click(function (){
+    let pupUpOptions = "width=650px, height=550px, top=100px, left=100px, scrollbars=yes"
+    let openUrl = "/usr/home/popUp.com"
+    window.open(openUrl, "pop", pupUpOptions)
+})

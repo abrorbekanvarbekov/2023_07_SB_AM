@@ -14,8 +14,9 @@
             <img src="/resource/images/a.png" class="w-80" alt="이미지 나옵니다">
         </div>
 
-        <div class="mt-6 ">
+        <div class="mt-6 flex justify-between">
             <span class="btn btn-accent btn-sm modal-exam">모달 예시</span>
+            <span class="btn btn-accent btn-sm popUp-exam">팝업 예시</span>
         </div>
 
         <div class="layer-bg"></div>
