@@ -3,14 +3,17 @@
 
 
 <c:set var="pageTitle" value="Writer"/>
+
 <%@include file="../common/head.jsp" %>
+<%@include file="../common/toastUIEditorLib.jsp" %>
+
 <section class="mt-8">
     <div class="container mx-auto">
-        <form action="doWrite" method="POST">
+        <form action="doWrite" method="POST" onsubmit="submitForm(this); return false;">
+            <input type="hidden" name="body">
             <div class="table-box-type-1">
                 <table border="1">
                     <tbody>
-<%--                    <input type="hidden" value="${param.id}" name="boardId">--%>
                     <tr>
                         <th>게시판</th>
                         <td>
@@ -29,15 +32,16 @@
                         <th>Title</th>
                         <td>
                             <input class="input input-bordered input-info w-full" type="text"
-                                   placeholder="제목을 입력해주세요"
-                                   name="title">
+                                   placeholder="제목을 입력해주세요" name="title">
                         </td>
                     </tr>
                     <tr>
                         <th>Body</th>
-                        <td><textarea class="input input-bordered input-info w-full" name="body"
-                                      placeholder="내용을 입력해주세요"
-                        ></textarea></td>
+                        <td>
+                            <div class="toast-ui-editor">
+                                <script type="text/x-template"></script>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th colspan="2">

@@ -1,4 +1,4 @@
-package com.example.demo.UserArticleController;
+package com.example.demo.UsrArticleController;
 
 import com.example.demo.service.ReactionPointService;
 import com.example.demo.vo.ReactionPoint;

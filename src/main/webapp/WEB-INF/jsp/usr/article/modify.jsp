@@ -3,10 +3,14 @@
 
 
 <c:set var="pageTitle" value="Modify"/>
+
 <%@include file="../common/head.jsp" %>
+<%@include file="../common/toastUIEditorLib.jsp" %>
+
 <section class="mt-8">
     <div class="container mx-auto">
-        <form action="doModify" method="POST">
+        <form action="doModify" method="POST" onsubmit="submitForm(this); return false;">
+            <input type="text" name="body">
             <div class="table-box-type-1">
                 <table border="1">
                     <tbody>
@@ -26,19 +30,20 @@
                         <th>작성자</th>
                         <td>${article.writerName}</td>
                     </tr>
-
-                        <input type="hidden" placeholder="제목을 입력해주세요" value="${article.id}"name="id">
-
+                    <input type="hidden" value="${article.id}" name="id">
                     <tr>
                         <th>Title</th>
-                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" value="${article.title}" type="text" placeholder="제목을 입력해주세요"
-                                   name="title">
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" value="${article.title}"
+                                   type="text" placeholder="제목을 입력해주세요" name="title">
                         </td>
                     </tr>
                     <tr>
                         <th>Body</th>
-                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" value="${article.body}" type="text" placeholder="내용을 입력해주세요"
-                                   name="body"></td>
+                        <td>
+                            <div class="toast-ui-editor">
+                                <script type="text/x-template">${article.body}</script>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th colspan="2">

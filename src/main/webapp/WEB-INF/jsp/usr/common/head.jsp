@@ -2,8 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="/resource/images/favicon.ico">
-    <meta name="viewport" content="width=device-width">
     <!-- 테일윈드 불러오기 -->
     <!-- 노말라이즈, 라이브러리 -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.0/dist/full.css" rel="stylesheet" type="text/css"/>
@@ -38,6 +40,7 @@
             <li class="hover:underline"><a href="/usr/member/myPage"class="h-full px-3 flex items-center">MyPAGE</a></li>
             <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/doLogOut">LOGOUT</a></li>
         </c:if>
+        <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/api/APITest">API</a></li>
     </ul>
 </div>
 

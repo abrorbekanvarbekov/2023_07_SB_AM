@@ -1,4 +1,4 @@
-package com.example.demo.UserArticleController;
+package com.example.demo.UsrArticleController;
 
 import com.example.demo.service.MemberService;
 import com.example.demo.util.Util;
