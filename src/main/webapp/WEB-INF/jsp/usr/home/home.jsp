@@ -5,7 +5,7 @@
 <%@include file="../common/head.jsp" %>
 
 <section class="mt-8">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-10">
         <div>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus, quibusdam odit. Nihil maiores voluptate, voluptatum, voluptatibus quis error pariatur et voluptates numquam facilis unde, corrupti tempore debitis ab dolore cupiditate.
         </div>

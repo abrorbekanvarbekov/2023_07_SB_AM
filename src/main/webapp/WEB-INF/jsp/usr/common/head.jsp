@@ -24,7 +24,7 @@
     <title>${pageTitle}</title>
 </head>
 <body>
-<div class="h-20 container flex mx-auto text-4xl mt-2">
+<div class="h-20 container flex mx-auto text-3xl mt-2 px-10">
     <a class="px-3 flex items-center" href="">LoGo</a>
     <div class="flex-grow"></div>
     <ul class="flex">
@@ -41,11 +41,12 @@
             <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/doLogOut">LOGOUT</a></li>
         </c:if>
         <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/api/APITest">API</a></li>
+        <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/api/APITest2">API2</a></li>
     </ul>
 </div>
 
-<section class="my-3 text-2xl">
-    <div class="container mx-auto px-3">
+<section class="my-3 text-2xl ">
+    <div class="container mx-auto px-10">
         <h1>${pageTitle}</h1>
     </div>
 </section>
