@@ -192,7 +192,7 @@
                     </tr>
                     <tr>
                         <th colspan="2">
-                            <button class="w-60 btn btn-outline btn-accent" type="submit">Login
+                            <button class="w-60 btn btn-outline btn-accent" type="submit">Join
                             </button>
                         </th>
                     </tr>

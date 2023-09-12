@@ -2,26 +2,28 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 
-<c:set var="pageTitle" value="Join"/>
+<c:set var="pageTitle" value="Find LoginId"/>
 <%@include file="../common/head.jsp" %>
 <section class="mt-8">
     <div class="container mx-auto">
-        <form action="doLogin" method="get">
+        <form action="doFindByLoginId" method="POST">
             <div class="table-box-type-1">
                 <table border="1">
                     <tbody>
                     <tr>
-                        <th>LoginId</th>
-                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text" placeholder="LoginId" name="loginId">
+                        <th>이름</th>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="이름을 입력하세요" name="name">
                         </td>
                     </tr>
                     <tr>
-                        <th>loginPw</th>
-                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text" placeholder="LoginPw" name="loginPw"></td>
+                        <th>이메일</th>
+                        <td><input class="w-60 input input-bordered input-info w-full max-w-xs" type="text"
+                                   placeholder="이메일을 입력하세요" name="email"></td>
                     </tr>
                     <tr>
                         <th colspan="2">
-                            <button class="w-60 btn btn-outline btn-accent" type="submit">Login</button>
+                            <button class="w-60 btn btn-accent" type="submit">아이디 찾기</button>
                         </th>
                     </tr>
                     </tbody>

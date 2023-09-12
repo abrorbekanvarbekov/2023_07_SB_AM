@@ -4,15 +4,24 @@ import com.example.demo.dao.MemberDao;
 import com.example.demo.util.Util;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultDate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MemberService {
-    private MemberDao memberDao;
 
-    public MemberService(MemberDao memberDao){
+    @Value("${custom.siteName}")
+    private String siteName;
+    @Value("${custom.siteMainUri}")
+    private String siteMainUri;
+
+    private MemberDao memberDao;
+    private MailService mailService;
+
+    public MemberService(MemberDao memberDao, MailService mailService){
+        this.mailService = mailService;
         this.memberDao = memberDao;
     }
 
@@ -79,4 +88,24 @@ public class MemberService {
     public Member getExistLoginId(String loginId) {
         return memberDao.getExistLoginId(loginId);
     }
+
+
+    public ResultDate notifyTempLoginPwEmail(Member member) {
+        String title = "[" + siteName + "] 임시 패스워드 발송";
+        String tempPassword = Util.getTempPassword(8);
+        String body = "<h1>임시 패스워드 : " + tempPassword + "</h1>";
+        body += "<a style='font-size:4rem;' href=\"" + siteMainUri + "/usr/member/login\" target=\"_blank\">로그인 하러가기</a>";
+
+        ResultDate sendRd = mailService.send(member.getEmail(), title, body);
+
+        if (sendRd.isFail()) {
+            return sendRd;
+        }
+
+        System.out.println(tempPassword);
+        doPasswordModify(member.getId(), Util.sha256(tempPassword));
+
+        return ResultDate.from("S-1", "계정의 이메일주소로 임시 패스워드가 발송되었습니다");
+    }
+
 }

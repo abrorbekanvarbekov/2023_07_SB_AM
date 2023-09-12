@@ -1,5 +1,16 @@
-
+#  vznv fzwy rbtt wut
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: 1aabror@gmail.com
+    password: pvkkrtunvtloxuvc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -16,3 +27,9 @@ spring:
 mybatis:
   type-aliases-package: com.example.demo.vo
   mapper-locations: mapper/**.xml
+
+custom:
+  siteName: 2023_07_SB_AM
+  siteMainUri: http://localhost:8080
+  emailFrom: 1aabror@gmail.com
+  emailFromName: 2023_07_SB_AM
