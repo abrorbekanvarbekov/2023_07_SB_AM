@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -22,12 +22,42 @@
     <link rel="stylesheet" href="/resource/common.css" type="text/css">
     <script src="/resource/common.js" defer="defer"></script>
     <title>${pageTitle}</title>
+
+    <script>
+        function Theme_Toggle(){
+            const theme = localStorage.getItem("theme") ?? "light";
+            if(theme == "light"){
+                localStorage.setItem("theme", "dark")
+            }else {
+                localStorage.setItem("theme", "light")
+            }
+
+            location.reload();
+        }
+
+        function Theme_applyTo(themeName){
+            $('html').attr('data-theme', themeName)
+        }
+
+        function Theme_init(){
+            const theme = localStorage.getItem("theme") ?? "light";
+            Theme_applyTo(theme);
+        }
+
+        Theme_init();
+    </script>
 </head>
 <body>
 <div class="h-20 container flex mx-auto text-3xl mt-2 px-10">
     <a class="px-3 flex items-center" href="">LoGo</a>
     <div class="flex-grow"></div>
     <ul class="flex">
+        <li>
+            <a href="javascript:Theme_Toggle();" class="h-full theme-toggle px-3 flex items-center">
+                <span><i class="fa-regular fa-sun"></i></span>
+                <span><i class="fa-solid fa-sun"></i></span>
+            </a>
+        </li>
         <li class="hover:underline"><a class="h-full px-3 flex items-center" href="/">HOME</a></li>
         <li class="hover:underline"><a class="h-full px-3 flex items-center"
                                        href="/usr/article/list?boardId=1">F_LIST</a></li>
