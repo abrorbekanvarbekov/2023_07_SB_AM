@@ -1,5 +1,9 @@
 #  vznv fzwy rbtt wut
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
   mail:
     host: smtp.gmail.com
     port: 587
@@ -33,3 +37,6 @@ custom:
   siteMainUri: http://localhost:8080
   emailFrom: 1aabror@gmail.com
   emailFromName: 2023_07_SB_AM
+
+file:
+  dir: C:/Users/MSI/OneDrive/사진/upload
